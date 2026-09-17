@@ -1,30 +1,33 @@
-# Refúgio Nômade — Cabins & Forest
+# Refúgio Nômade — Estratégico v5
 
-Landing page fictícia criada para portfólio.
+Projeto conceitual de portfólio para uma hospedagem fictícia em Chapada dos Guimarães — MT.
 
-## Conceito
-Hotel boutique de chalés A-frame em meio à mata, com linguagem cinematográfica, contemplativa e arquitetônica.
+## O que mudou
+- Preservadas as áreas já usadas nos screenshots do portfólio, inclusive Cabin Bruma e “Poucos chalés. Mais espaço entre eles.”
+- Novo recomendador interativo de cabins com duas escolhas e WhatsApp contextual.
+- Nova narrativa de scroll “Menos ruído / Menos pressa / ...”.
+- Movimento sutil no hero e imagens, com profundidade e luz reagindo ao mouse no desktop.
+- Transições do período do dia.
+- Interações por toque continuam funcionando no mobile.
+- `prefers-reduced-motion` respeitado.
+- SEO técnico conceitual para Chapada dos Guimarães, sem representar uma hospedagem real.
+- `robots.txt` e `sitemap.xml` adicionados.
 
-## Recursos
-- Hero assimétrico com grande fotografia e painel lateral.
-- Jornada interativa "Por que você quer fugir daqui por alguns dias?".
-- Quatro cabins apresentadas com composições visuais diferentes.
-- Linha do tempo interativa "Um dia pode ser assim".
-- CTAs contextuais de WhatsApp.
-- FAQ expansível.
-- Mobile construído como sequência vertical de cenas.
-- Fallback visual para imagens externas.
+## Arquivos para subir no GitHub
+- `index.html`
+- `styles.css`
+- `script.js`
+- `README.md`
+- `robots.txt`
+- `sitemap.xml`
 
-## Observações
-Todos os dados, contatos, nomes de cabins e informações são fictícios e usados somente para portfólio.
-
-
-## Revisão de imagens — v2
-- Todas as imagens visíveis foram revisadas para mostrar chalés/cabins.
-- Foram removidas imagens que lembravam casas urbanas, apartamentos ou cenas genéricas.
-- A direção visual prioriza referências de Chapada dos Guimarães, Chapada dos Veadeiros e paisagens de cerrado.
-- As imagens externas são referências de protótipo/portfólio; para uso comercial público, devem ser substituídas por imagens licenciadas ou próprias.
+O projeto é fictício. WhatsApp, disponibilidade e operação comercial são apenas demonstrações de portfólio.
 
 
-## Ajuste de copy — v3
-- Pergunta da seção de intenção alterada para: “O que você quer viver no Refúgio Nômade?” para eliminar ambiguidade.
+## V5 — passagem do dia para a noite
+- O escurecimento agora é progressivo e perceptível a partir da seção “Um dia por aqui”.
+- A paleta passa por manhã, entardecer, verde profundo e noite conforme o scroll.
+- A fotografia da seção do dia também recebe escurecimento progressivo.
+- Experiences e FAQ acompanham a paleta noturna para evitar o retorno brusco ao fundo claro.
+- As duas áreas já usadas nos screenshots do portfólio continuam sem alteração estrutural/visual estática.
+- O efeito também funciona no mobile e respeita prefers-reduced-motion.

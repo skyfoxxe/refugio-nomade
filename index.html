@@ -3,9 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Projeto fictício de portfólio para o Refúgio Nômade — Cabins & Forest.">
+  <meta name="description" content="Projeto conceitual de hospedagem em Chapada dos Guimarães: cabins A-frame, natureza, privacidade e uma experiência digital interativa criada para portfólio.">
   <meta name="theme-color" content="#18211C">
-  <title>Refúgio Nômade — Cabins & Forest</title>
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://refugionomadeeight.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Refúgio Nômade — projeto conceitual de cabins em Chapada dos Guimarães">
+  <meta property="og:description" content="Projeto conceitual de portfólio com experiência interativa para uma hospedagem fictícia em Chapada dos Guimarães — MT.">
+  <meta property="og:url" content="https://refugionomadeeight.vercel.app/">
+  <title>Refúgio Nômade — projeto conceitual de cabins em Chapada dos Guimarães</title>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "Refúgio Nômade — Cabins & Forest",
+    "description": "Projeto conceitual de portfólio para uma hospedagem fictícia em Chapada dos Guimarães, Mato Grosso.",
+    "creator": {"@type": "Person", "name": "Matheus Moreira"},
+    "about": ["hospedagem em Chapada dos Guimarães", "cabins A-frame", "turismo de natureza"],
+    "url": "https://refugionomadeeight.vercel.app/"
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +51,7 @@
 
       <nav class="main-nav" id="main-nav">
         <a href="#motivo">Sua escapada</a>
+        <a href="#encontre">Encontre sua cabin</a>
         <a href="#cabins">Cabins</a>
         <a href="#dia">Um dia aqui</a>
         <a href="#experiencias">Experiências</a>
@@ -42,8 +62,11 @@
 
   <main id="conteudo">
     <section class="hero">
-      <div class="hero-photo">
-        <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1252503166432124872/original/68f434cc-94cc-4aa7-b6c9-ece641fa9632.jpeg" alt="Chalé A-frame iluminado em vegetação de cerrado" fetchpriority="high">
+      <div class="hero-photo" data-depth-scene>
+        <div class="hero-breathe-layer">
+          <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1252503166432124872/original/68f434cc-94cc-4aa7-b6c9-ece641fa9632.jpeg" alt="Chalé A-frame iluminado em vegetação de cerrado" fetchpriority="high">
+        </div>
+        <div class="hero-ambient" aria-hidden="true"></div>
         <div class="image-fallback">
           <span>Refúgio Nômade</span>
           <strong>Cabins & Forest</strong>
@@ -132,6 +155,68 @@
           <h3 id="motive-title">Descansar</h3>
           <p id="motive-copy">Sem roteiro obrigatório, sem programação cheia. Uma cama confortável, silêncio e tempo suficiente para não fazer muita coisa.</p>
           <a id="motive-link" href="https://wa.me/5565999999999?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20Ref%C3%BAgio%20N%C3%B4made%20e%20estou%20procurando%20uma%20hospedagem%20para%20descansar%20por%20alguns%20dias.%20Gostaria%20de%20conhecer%20as%20op%C3%A7%C3%B5es%20dispon%C3%ADveis." target="_blank" rel="noopener">Quero um fim de semana para descansar ↗</a>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="finder-section" id="encontre" data-pointer-ambient>
+      <div class="finder-ambient" aria-hidden="true"></div>
+      <div class="finder-shell">
+        <div class="finder-head reveal">
+          <span>Curadoria / Sua pausa</span>
+          <div>
+            <h2>Que tipo de pausa você procura?</h2>
+            <p>Escolha o que mais importa para você. O Refúgio muda a recomendação conforme as suas respostas.</p>
+          </div>
+        </div>
+
+        <div class="finder-layout">
+          <div class="finder-controls reveal">
+            <fieldset class="finder-fieldset">
+              <legend>1. O que você quer sentir primeiro?</legend>
+              <div class="finder-options" role="group" aria-label="Preferência principal">
+                <button class="finder-option active" type="button" data-vibe="isolamento"><span>01</span>Mais isolamento</button>
+                <button class="finder-option" type="button" data-vibe="vista"><span>02</span>Vista e luz</button>
+                <button class="finder-option" type="button" data-vibe="mata"><span>03</span>Mata por perto</button>
+                <button class="finder-option" type="button" data-vibe="noite"><span>04</span>Uma noite especial</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="finder-fieldset">
+              <legend>2. Como você imagina esses dias?</legend>
+              <div class="finder-options finder-options-secondary" role="group" aria-label="Tipo de estadia">
+                <button class="finder-option secondary active" type="button" data-moment="dois">A dois</button>
+                <button class="finder-option secondary" type="button" data-moment="sozinho">Só comigo</button>
+                <button class="finder-option secondary" type="button" data-moment="celebrar">Celebrar algo</button>
+                <button class="finder-option secondary" type="button" data-moment="sem-agenda">Sem agenda</button>
+              </div>
+            </fieldset>
+
+            <div class="finder-note">
+              <span>Experiência interativa</span>
+              <p>Esta recomendação não é um filtro genérico: ela combina preferências e muda o caminho de navegação e a conversa no WhatsApp.</p>
+            </div>
+          </div>
+
+          <article class="finder-result reveal" id="finder-result" aria-live="polite">
+            <div class="finder-result-photo" data-tilt-card>
+              <img id="finder-image" src="https://storage.googleapis.com/production-hostgator-brasil-v1-0-9/789/866789/nM4Ek4OJ/6b6874af0d17499ba0085601802a1f6f" alt="Cabin Bruma cercada por vegetação" loading="lazy">
+              <div class="finder-photo-shade"></div>
+              <span id="finder-badge">mais reservada</span>
+            </div>
+            <div class="finder-result-copy">
+              <span class="finder-kicker">Sua pausa combina com</span>
+              <h3 id="finder-title">Cabin Bruma</h3>
+              <p id="finder-copy">Mais reservada, cercada pela mata e pensada para quem quer diminuir o ritmo sem desaparecer do conforto.</p>
+              <div class="finder-reasons" id="finder-reasons">
+                <span>mais privacidade</span>
+                <span>banheira externa</span>
+                <span>tempo a dois</span>
+              </div>
+              <a id="finder-cta" class="finder-cta" href="https://wa.me/5565999999999?text=Ol%C3%A1%21%20O%20site%20me%20recomendou%20a%20Cabin%20Bruma%20e%20gostaria%20de%20consultar%20disponibilidade%20e%20valores." target="_blank" rel="noopener">Consultar a Cabin Bruma pelo WhatsApp ↗</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -242,6 +327,23 @@
       </div>
     </section>
 
+
+    <section class="stillness-section" id="silencio">
+      <div class="stillness-sticky" data-stillness-stage>
+        <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQyNDEwNTU1MTg0NjI4MTcyMw%3D%3D/original/e1d58c79-560b-4803-8367-a3b180acc2c5.jpeg" alt="Cabin A-frame iluminada entre árvores ao anoitecer" loading="lazy">
+        <div class="stillness-grade" aria-hidden="true"></div>
+        <div class="stillness-copy">
+          <span>Entre um plano e outro</span>
+          <div class="stillness-phrases" aria-live="polite">
+            <p class="active">Menos ruído.</p>
+            <p>Menos pressa.</p>
+            <p>Mais espaço entre uma coisa e outra.</p>
+            <p>Não precisa acontecer nada.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="experiences-section" id="experiencias">
       <div class="experiences-head reveal">
         <span>05 / Antes de chegar</span>
@@ -344,7 +446,7 @@
       <span>Hospedagem mediante reserva</span>
     </div>
 
-    <p>Projeto fictício desenvolvido exclusivamente para fins de portfólio.</p>
+    <p><strong>Projeto conceitual de portfólio.</strong> Hospedagem, contato e disponibilidade são fictícios.</p>
   </footer>
 
   <a class="whatsapp-float" href="https://wa.me/5565999999999?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20Ref%C3%BAgio%20N%C3%B4made%20e%20gostaria%20de%20consultar%20disponibilidade%2C%20valores%20e%20cabins%20para%20uma%20hospedagem." target="_blank" rel="noopener" aria-label="Consultar disponibilidade pelo WhatsApp">

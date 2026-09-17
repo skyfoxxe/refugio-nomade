@@ -410,3 +410,295 @@ p{margin:0 0 18px}
   }
   .whatsapp-float span{display:none}
 }
+
+
+/* =========================================================
+   ESTRATÉGICO V4 — movimento com intenção
+   O estado estático das seções já fotografadas foi preservado.
+   ========================================================= */
+
+.hero-photo{overflow:hidden;isolation:isolate}
+.hero-breathe-layer{position:absolute;inset:-1.5%;animation:nomadeBreath 18s ease-in-out infinite alternate;will-change:transform}
+.hero-breathe-layer img{width:100%;height:100%;object-fit:cover;transform:translate3d(var(--hero-x,0px),var(--hero-y,0px),0) scale(1.015);transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.hero-ambient{position:absolute;inset:0;pointer-events:none;background:radial-gradient(800px circle at var(--hero-light-x,45%) var(--hero-light-y,38%),rgba(245,225,185,.14),transparent 48%);mix-blend-mode:screen;opacity:.72;transition:opacity .6s ease}
+@keyframes nomadeBreath{from{transform:scale(1.005)}to{transform:scale(1.035)}}
+
+.finder-section{position:relative;overflow:hidden;background:#111712;color:#fff;padding:120px 0 130px;isolation:isolate}
+.finder-section::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.018),transparent 42%),linear-gradient(315deg,rgba(201,172,120,.035),transparent 46%);z-index:-2}
+.finder-ambient{position:absolute;inset:-20%;pointer-events:none;z-index:-1;background:radial-gradient(580px circle at var(--ambient-x,70%) var(--ambient-y,32%),rgba(204,177,126,.12),transparent 62%);opacity:.9;transition:opacity .5s ease}
+.finder-shell{width:min(calc(100% - 48px),var(--max));margin:auto}
+.finder-head{display:grid;grid-template-columns:130px minmax(0,1fr);gap:36px;align-items:start;margin-bottom:64px}
+.finder-head>span{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#9DA79F;margin-top:14px}
+.finder-head h2{max-width:830px;margin:0 0 16px;color:#F4F0E8}
+.finder-head p{max-width:650px;margin:0;color:#ADB5AF}
+.finder-layout{display:grid;grid-template-columns:minmax(0,.92fr) minmax(440px,1.08fr);gap:58px;align-items:start}
+.finder-controls{position:relative;padding-top:6px}
+.finder-fieldset{border:0;padding:0;margin:0 0 34px}
+.finder-fieldset legend{display:block;width:100%;padding:0 0 14px;border-bottom:1px solid rgba(255,255,255,.12);font-family:"Cormorant Garamond";font-size:1.55rem;font-weight:600;color:#E6E1D8}
+.finder-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.finder-option{appearance:none;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.025);color:#C8CFC9;min-height:68px;padding:14px 15px;text-align:left;display:flex;align-items:center;gap:12px;cursor:pointer;font:600 .74rem/1.2 Manrope,sans-serif;letter-spacing:.02em;transition:border-color .35s ease,background .35s ease,color .35s ease,transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease}
+.finder-option span{font-size:.62rem;letter-spacing:.15em;color:#8D968F}
+.finder-option:hover{border-color:rgba(217,191,141,.5);color:#fff;transform:translateY(-2px);box-shadow:0 16px 36px rgba(0,0,0,.16)}
+.finder-option.active{background:#D5BE90;border-color:#D5BE90;color:#142019;box-shadow:0 16px 46px rgba(213,190,144,.08)}
+.finder-option.active span{color:#566158}
+.finder-options-secondary{grid-template-columns:repeat(4,1fr)}
+.finder-option.secondary{min-height:50px;justify-content:center;text-align:center;padding:10px;font-size:.7rem}
+.finder-note{margin-top:36px;border-left:1px solid rgba(213,190,144,.65);padding:2px 0 2px 18px;max-width:470px}
+.finder-note span{font-size:.62rem;text-transform:uppercase;letter-spacing:.17em;color:#D5BE90}
+.finder-note p{margin:8px 0 0;color:#929C95;font-size:.82rem;line-height:1.65}
+
+.finder-result{position:sticky;top:112px;background:#E9E0D0;color:#162019;box-shadow:0 35px 90px rgba(0,0,0,.24);transition:opacity .28s ease,transform .42s cubic-bezier(.2,.8,.2,1)}
+.finder-result.is-changing{opacity:.25;transform:translateY(8px) scale(.992)}
+.finder-result-photo{position:relative;height:355px;overflow:hidden;perspective:900px;transform-style:preserve-3d}
+.finder-result-photo img{width:100%;height:100%;object-fit:cover;transform:translate3d(var(--tilt-x,0px),var(--tilt-y,0px),0) scale(1.045);transition:transform .9s cubic-bezier(.2,.75,.2,1),filter .45s ease;will-change:transform}
+.finder-result-photo:hover img{filter:saturate(.9) contrast(1.02)}
+.finder-photo-shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(11,17,13,.46),transparent 55%);pointer-events:none}
+.finder-result-photo>span{position:absolute;left:20px;bottom:18px;border:1px solid rgba(255,255,255,.42);color:#fff;background:rgba(10,15,12,.25);backdrop-filter:blur(8px);padding:8px 10px;font-size:.62rem;text-transform:uppercase;letter-spacing:.15em}
+.finder-result-copy{padding:30px 32px 34px}
+.finder-kicker{font-size:.62rem;text-transform:uppercase;letter-spacing:.17em;color:#6D776E}
+.finder-result-copy h3{font-family:"Cormorant Garamond";font-size:clamp(2.6rem,4.5vw,4.6rem);line-height:.93;margin:10px 0 14px}
+.finder-result-copy p{max-width:620px;color:#536057;margin:0 0 22px}
+.finder-reasons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.finder-reasons span{border:1px solid rgba(22,32,25,.18);padding:8px 10px;font-size:.67rem;text-transform:uppercase;letter-spacing:.07em;color:#465248}
+.finder-cta{display:flex;align-items:center;justify-content:space-between;background:#142019;color:#fff;padding:15px 17px;font-size:.74rem;font-weight:700;transition:background .35s ease,color .35s ease,padding .35s ease}
+.finder-cta:hover{background:#D5BE90;color:#142019;padding-left:21px;padding-right:21px}
+
+.stillness-section{position:relative;height:300vh;background:#0C100D}
+.stillness-sticky{position:sticky;top:0;height:100vh;min-height:620px;overflow:hidden;display:grid;place-items:center;isolation:isolate}
+.stillness-sticky img{position:absolute;inset:-2%;width:104%;height:104%;object-fit:cover;filter:brightness(.48) saturate(.72);transform:scale(1.02) translate3d(0,var(--still-y,0px),0);will-change:transform,filter;transition:filter .6s ease}
+.stillness-grade{position:absolute;inset:0;background:radial-gradient(700px circle at 50% 43%,rgba(230,208,166,.08),transparent 58%),linear-gradient(to bottom,rgba(5,8,6,.24),rgba(5,8,6,.68));z-index:1}
+.stillness-copy{position:relative;z-index:2;width:min(calc(100% - 48px),var(--max));color:#fff}
+.stillness-copy>span{font-size:.65rem;text-transform:uppercase;letter-spacing:.2em;color:#ADB5AF}
+.stillness-phrases{position:relative;margin-top:34px;min-height:160px;max-width:900px}
+.stillness-phrases p{position:absolute;inset:auto auto auto 0;margin:0;font-family:"Cormorant Garamond";font-size:clamp(3.8rem,8vw,8rem);font-weight:600;line-height:.88;opacity:0;transform:translateY(26px);filter:blur(8px);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.8,.2,1),filter .8s ease}
+.stillness-phrases p.active{opacity:1;transform:none;filter:none}
+
+/* Subtle motion on existing photographic modules; resting state is unchanged. */
+.cabin-photo,.bruma-photo,.lua-photo,.small-photo{overflow:hidden}
+.cabin-photo img,.bruma-photo img,.lua-photo img,.small-photo img{transition:transform 1.1s cubic-bezier(.2,.72,.2,1),filter .7s ease;will-change:transform}
+@media (hover:hover) and (pointer:fine){
+  .cabin-photo:hover img,.bruma-photo:hover img,.lua-photo:hover img,.small-photo:hover img{transform:scale(1.025);filter:saturate(.92) contrast(1.015)}
+  .primary-btn,.secondary-btn,.nav-cta,.experiences-action a,.cabin a,.bruma-copy a,.lua-copy a{transition:transform .35s cubic-bezier(.2,.8,.2,1),background .35s ease,color .35s ease,border-color .35s ease}
+  .primary-btn:hover,.secondary-btn:hover,.nav-cta:hover,.experiences-action a:hover,.cabin a:hover,.bruma-copy a:hover,.lua-copy a:hover{transform:translateY(-2px)}
+}
+
+.day-stage{--day-warmth:0}
+.day-stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(145deg,rgba(255,190,112,var(--day-warmth)),rgba(14,28,22,calc(var(--day-warmth) * .55)));mix-blend-mode:soft-light;transition:background .7s ease,opacity .7s ease}
+.day-stage img{transition:opacity .3s ease,transform 1s cubic-bezier(.2,.75,.2,1),filter .7s ease}
+.day-stage.day-changing img{opacity:.28;transform:scale(1.018)}
+
+@media(max-width:1020px){
+  .finder-layout{grid-template-columns:1fr}
+  .finder-result{position:relative;top:auto;display:grid;grid-template-columns:1fr 1fr}
+  .finder-result-photo{height:100%;min-height:400px}
+  .finder-options-secondary{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:720px){
+  .finder-section{padding:78px 0 88px}
+  .finder-shell{width:calc(100% - 28px)}
+  .finder-head{grid-template-columns:1fr;gap:10px;margin-bottom:38px}
+  .finder-options{grid-template-columns:1fr 1fr}
+  .finder-option{min-height:62px;padding:12px 11px}
+  .finder-options-secondary{grid-template-columns:1fr 1fr}
+  .finder-result{display:block}
+  .finder-result-photo{height:330px;min-height:0}
+  .finder-result-copy{padding:25px 20px 27px}
+  .finder-result-copy h3{font-size:3.5rem}
+  .finder-note{margin-bottom:30px}
+
+  .stillness-section{height:auto;padding:0;background:#0C100D}
+  .stillness-sticky{position:relative;height:auto;min-height:720px;padding:100px 0;align-items:end}
+  .stillness-sticky img{inset:0;width:100%;height:100%;transform:none}
+  .stillness-copy{width:calc(100% - 28px);padding-bottom:36px}
+  .stillness-phrases{min-height:0;margin-top:26px}
+  .stillness-phrases p{position:relative;opacity:1;transform:none;filter:none;font-size:clamp(3rem,15vw,4.8rem);padding:8px 0;border-top:1px solid rgba(255,255,255,.12)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .hero-breathe-layer{animation:none!important;transform:none!important}
+  .hero-breathe-layer img,.finder-result-photo img,.stillness-sticky img{transform:none!important}
+  .stillness-section{height:auto!important}
+  .stillness-sticky{position:relative!important;height:auto!important;min-height:720px!important}
+  .stillness-phrases p{position:relative!important;opacity:1!important;transform:none!important;filter:none!important}
+  .finder-result.is-changing{opacity:1!important;transform:none!important}
+}
+
+
+/* =========================================================
+   ESTRATÉGICO V5 — passagem real do dia para a noite
+   A transformação começa depois das áreas já usadas nos prints.
+   As seções Cabin Bruma e "Poucos chalés..." permanecem intactas.
+   ========================================================= */
+
+/* Paleta controlada pelo scroll. */
+:root{
+  --cycle-bg-r: 43;
+  --cycle-bg-g: 54;
+  --cycle-bg-b: 43;
+  --cycle-warmth: .05;
+  --cycle-night: 0;
+}
+
+/* A partir de "Um dia por aqui", o ambiente passa a acompanhar
+   a hora do dia de forma perceptível. */
+.day-section,
+.experiences-section,
+.faq-section{
+  position:relative;
+  isolation:isolate;
+  background:rgb(
+    var(--cycle-bg-r),
+    var(--cycle-bg-g),
+    var(--cycle-bg-b)
+  );
+  color:#F5F1E8;
+  transition:background-color .12s linear,color .25s ease;
+}
+
+.day-section::before,
+.experiences-section::before,
+.faq-section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(
+      900px circle at 78% 12%,
+      rgba(224,158,92,var(--cycle-warmth)),
+      transparent 58%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(7,11,8,calc(var(--cycle-night) * .10)),
+      rgba(3,6,4,calc(var(--cycle-night) * .26))
+    );
+}
+
+/* O conteúdo dessas seções acompanha a atmosfera escura sem
+   perder legibilidade. */
+.experiences-head>span,
+.faq-head>span{
+  color:#AAB4AC;
+}
+.experiences-head h2,
+.faq-head h2,
+.experience-item h3,
+.faq-question span{
+  color:#F4F0E8;
+}
+.experience-list,
+.faq-list{
+  border-color:rgba(255,255,255,.14);
+}
+.experience-item,
+.faq-item{
+  border-color:rgba(255,255,255,.14);
+}
+.experience-item p,
+.faq-answer p{
+  color:#B9C1BB;
+}
+.experiences-action a{
+  color:#E4CC9D;
+  border-color:#E4CC9D;
+}
+.faq-question{
+  color:#F4F0E8;
+}
+.faq-question b{
+  color:#E4CC9D;
+}
+
+/* O trecho "Luxo" já é noturno; a v5 reforça a continuidade. */
+.luxury-section{
+  position:relative;
+  background:#090C0A;
+  overflow:hidden;
+}
+.luxury-section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(700px circle at 78% 18%,rgba(203,150,92,.055),transparent 62%),
+    linear-gradient(180deg,rgba(10,17,12,.05),rgba(0,0,0,.30));
+}
+
+/* A seção fotografada "Poucos chalés..." não recebe alteração. */
+.small-section{
+  position:relative;
+  z-index:1;
+}
+
+/* No FAQ já estamos em noite fechada, mas com leitura confortável. */
+.faq-section{
+  padding-top:120px;
+  padding-bottom:120px;
+}
+
+/* A CTA encerra o ciclo no ponto mais escuro. */
+.final-cta::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(
+    180deg,
+    rgba(4,8,5,.10),
+    rgba(2,4,3,.36)
+  );
+  z-index:1;
+}
+.final-box{
+  z-index:2;
+}
+
+/* Dentro da seção do dia, a própria fotografia acompanha a
+   progressão de luz enquanto o usuário desce. */
+.day-stage{
+  --scroll-dim: 0;
+}
+.day-stage::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(10,18,12,calc(var(--scroll-dim) * .18)),
+      rgba(2,5,3,calc(var(--scroll-dim) * .52))
+    );
+  transition:background .12s linear;
+}
+.day-caption{
+  z-index:3;
+}
+
+/* Mobile também recebe a passagem do tempo; ela depende de scroll,
+   não de cursor. */
+@media(max-width:720px){
+  .day-section,
+  .experiences-section,
+  .faq-section{
+    transition:none;
+  }
+}
+
+/* Acessibilidade: sem transição contínua quando o usuário solicita
+   redução de movimento. Mantém-se um estado estável e escuro. */
+@media(prefers-reduced-motion:reduce){
+  :root{
+    --cycle-bg-r: 18;
+    --cycle-bg-g: 24;
+    --cycle-bg-b: 20;
+    --cycle-warmth: .03;
+    --cycle-night: .55;
+  }
+  .day-stage{--scroll-dim:.45!important}
+}
