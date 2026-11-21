@@ -1,118 +1,104 @@
-/* Refúgio Nômade — v6 quiet luxury */
+/* Refúgio Nômade — v7 · quiet luxury, pacote Estratégico */
 (() => {
   'use strict';
 
-  document.documentElement.classList.add('js');
-
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const SWAP_MS = reducedMotion ? 0 : 280;
+  const SWAP_MS = reducedMotion ? 0 : 260;
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
-  /* ---------- WhatsApp: uma única fonte para as mensagens ---------- */
+  /* ---------- Dados ---------- */
 
   const WHATSAPP = '5565999999999';
-  const waMessages = {
-    geral: 'Olá! Vim pelo site do Refúgio Nômade e gostaria de consultar disponibilidade, valores e cabins para uma hospedagem.',
-    ajuda: 'Olá! Vim pelo site do Refúgio Nômade e gostaria de ajuda para escolher qual cabin combina mais com a viagem que estou planejando.',
-    experiencias: 'Olá! Vim pelo site do Refúgio Nômade e gostaria de conhecer as experiências que podem ser adicionadas à hospedagem.'
-  };
   const waLink = (text) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
-  const cabinMessage = (name) =>
-    `Olá! Vim pelo site do Refúgio Nômade e gostaria de consultar disponibilidade e valores para a Cabin ${name}.`;
+  const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
 
-  document.querySelectorAll('[data-wa]').forEach((link) => {
-    const key = link.dataset.wa;
-    link.href = waLink(waMessages[key] || cabinMessage(key));
-  });
+  const img = (id, w = 1280) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=72`;
+  const srcset = (id) => [640, 960, 1280, 1800].map((w) => `${img(id, w)} ${w}w`).join(', ');
+
+  const CABINS = {
+    Orvalho:   { rate: 890,  why: 'A mais leve das quatro, numa clareira voltada para o nascente. Um bom começo para entrar no ritmo do Refúgio.' },
+    Horizonte: { rate: 1090, why: 'Fachada inteira de vidro. Para abrir os olhos e encontrar a paisagem antes de qualquer compromisso.' },
+    Bruma:     { rate: 1240, why: 'A mais afastada, com banheira externa. Para quem quer diminuir o ritmo sem abrir mão do conforto.' },
+    Lua:       { rate: 1480, why: 'A maior, com banheira de imersão e detalhes preparados antes da chegada. Para quando a noite é o motivo.' }
+  };
+
+  /* ---------- WhatsApp direto ---------- */
+
+  const waMessages = {
+    ajuda: 'Olá! Vim pelo site do Refúgio Nômade e gostaria de ajuda para escolher uma cabin e consultar disponibilidade.'
+  };
+  $$('[data-wa]').forEach((link) => { link.href = waLink(waMessages[link.dataset.wa] || waMessages.ajuda); });
 
   /* ---------- Cabeçalho e menu ---------- */
 
-  const header = document.querySelector('.site-header');
-  const toggle = document.querySelector('.menu-toggle');
-  const nav = document.getElementById('main-nav');
-  const toggleLabel = toggle?.querySelector('.menu-toggle-label');
+  const header = $('.site-header');
+  const toggle = $('.menu-toggle');
+  const nav = $('#main-nav');
 
   const setMenu = (open) => {
-    if (!toggle || !nav) return;
-    nav.classList.toggle('is-open', open);
-    toggle.setAttribute('aria-expanded', String(open));
-    if (toggleLabel) toggleLabel.textContent = open ? 'Fechar' : 'Menu';
+    nav?.classList.toggle('is-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    if (toggle) toggle.textContent = open ? 'Fechar' : 'Menu';
   };
-
   toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
-  nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
-      setMenu(false);
-      toggle.focus();
-    }
+  $$('a', nav).forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { setMenu(false); toggle.focus(); }
   });
 
-  /* ---------- Imagens: falha silenciosa, sem quebrar o layout ---------- */
+  /* ---------- Imagens ---------- */
 
-  const markBroken = (img) => img.closest('.frame')?.classList.add('is-broken');
-  document.querySelectorAll('.frame img').forEach((img) => {
-    if (img.complete && img.naturalWidth === 0) markBroken(img);
-    img.addEventListener('error', () => markBroken(img));
-    img.addEventListener('load', () => img.closest('.frame')?.classList.remove('is-broken'));
+  const markBroken = (el) => el.closest('.frame')?.classList.add('is-broken');
+  $$('.frame img').forEach((el) => {
+    if (el.complete && el.naturalWidth === 0 && el.loading !== 'lazy') markBroken(el);
+    el.addEventListener('error', () => markBroken(el));
+    el.addEventListener('load', () => el.closest('.frame')?.classList.remove('is-broken'));
   });
 
-  /* Troca uma imagem com um fade curto, só depois que a nova carregou. */
-  const swapImage = (img, src, alt) => {
-    const frame = img.closest('.frame');
-    img.dataset.target = src;               // a última escolha sempre vence
-    if (img.getAttribute('src') === src) { img.alt = alt; frame?.classList.remove('is-swapping'); return; }
-    const preload = new Image();
+  // Troca com fade curto, depois que a nova imagem carregou; a última escolha vence.
+  const swapImage = (el, id, alt) => {
+    const frame = el.closest('.frame');
+    el.dataset.target = id;
+    const pre = new Image();
     const apply = () => {
-      if (img.dataset.target !== src) return;
-      img.src = src;
-      img.alt = alt;
-      window.setTimeout(() => frame?.classList.remove('is-swapping'), 20);
+      if (el.dataset.target !== id) return;
+      el.srcset = srcset(id);
+      el.src = img(id);
+      el.alt = alt;
+      requestAnimationFrame(() => frame?.classList.remove('is-swapping'));
     };
     frame?.classList.add('is-swapping');
-    preload.onload = () => window.setTimeout(apply, SWAP_MS);
-    preload.onerror = apply;
-    preload.src = src;
+    pre.onload = () => setTimeout(apply, SWAP_MS);
+    pre.onerror = apply;
+    pre.src = img(id, 960);
   };
 
-  /* ---------- 02 Sua pausa: recomendação de cabin ---------- */
+  /* ---------- II. Cabins em abas ---------- */
 
-  const IMG = {
-    bruma: 'https://storage.googleapis.com/production-hostgator-brasil-v1-0-9/789/866789/nM4Ek4OJ/6b6874af0d17499ba0085601802a1f6f',
-    horizonte: 'https://a0.muscache.com/im/pictures/80597a72-1e64-4705-b9a1-3f32ebe99bbc.jpg',
-    orvalho: 'https://exploreturdf.com.br/wp-content/uploads/2022/11/DSC03615-scaled-e1667333240603.jpg',
-    lua: 'https://a0.muscache.com/im/pictures/hosting/Hosting-1252503166432124872/original/68f434cc-94cc-4aa7-b6c9-ece641fa9632.jpeg',
-    manha: 'https://storage.googleapis.com/production-hostgator-brasil-v1-0-9/789/866789/nM4Ek4OJ/2f94db7997754373a3104445309502f4',
-    noite: 'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQyNDEwNTU1MTg0NjI4MTcyMw%3D%3D/original/e1d58c79-560b-4803-8367-a3b180acc2c5.jpeg'
+  const tabs = $$('.cabin-tab');
+  const selectTab = (tab, focus = false) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !on;
+    });
+    if (focus) tab.focus();
   };
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', (e) => {
+      const keys = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: tabs.length - 1 };
+      if (!(e.key in keys)) return;
+      e.preventDefault();
+      selectTab(tabs[(keys[e.key] + tabs.length) % tabs.length], true);
+    });
+  });
 
-  const cabins = {
-    Bruma: {
-      image: IMG.bruma,
-      alt: 'Cabin Bruma, reservada entre árvores',
-      copy: 'Mais reservada, cercada pela mata e pensada para quem quer diminuir o ritmo sem desaparecer do conforto.',
-      traits: ['Mais privacidade', 'Banheira externa', 'Ritmo mais lento']
-    },
-    Horizonte: {
-      image: IMG.horizonte,
-      alt: 'Cabin Horizonte, com fachada envidraçada e vista',
-      copy: 'Uma cabin para quem quer abrir os olhos e encontrar a paisagem antes de encontrar qualquer compromisso.',
-      traits: ['Fachada envidraçada', 'Deck panorâmico', 'Luz natural']
-    },
-    Orvalho: {
-      image: IMG.orvalho,
-      alt: 'Cabin Orvalho, cercada pela natureza',
-      copy: 'Equilíbrio entre conforto, natureza e simplicidade. Uma boa primeira experiência para entrar no ritmo do Refúgio.',
-      traits: ['Deck privativo', 'Café sem pressa', 'Natureza por perto']
-    },
-    Lua: {
-      image: IMG.lua,
-      alt: 'Cabin Lua, iluminada ao anoitecer',
-      copy: 'Mais espaço, atmosfera noturna e detalhes pensados para quando a própria hospedagem faz parte da ocasião.',
-      traits: ['Banheira de imersão', 'Mais espaço', 'Clima para celebrar']
-    }
-  };
+  /* ---------- III. Recomendador ---------- */
 
-  // A preferência principal decide; a segunda resposta só desempata casos próximos.
   const recommend = (vibe, moment) => {
     if (vibe === 'noite' || moment === 'celebrar') return 'Lua';
     if (vibe === 'vista') return 'Horizonte';
@@ -120,125 +106,205 @@
     return 'Bruma';
   };
 
-  const finder = document.getElementById('pausa');
-  if (finder) {
+  const verdict = $('.verdict');
+  if (verdict) {
     const state = { vibe: 'isolamento', moment: 'dois' };
-    const result = finder.querySelector('.finder-result');
-    const el = {
-      image: document.getElementById('finder-image'),
-      name: document.getElementById('finder-name'),
-      text: document.getElementById('finder-text'),
-      traits: document.getElementById('finder-traits'),
-      cta: document.getElementById('finder-cta')
-    };
+    const name = $('#verdict-name');
+    const why = $('#verdict-why');
+    const cta = $('#verdict-cta');
     let current = 'Bruma';
 
-    const momentText = {
-      dois: 'para um fim de semana a dois',
-      sozinho: 'para alguns dias só comigo',
-      celebrar: 'para celebrar uma data especial',
-      'sem-agenda': 'para alguns dias sem agenda'
-    };
-
     const render = () => {
-      const name = recommend(state.vibe, state.moment);
-      const data = cabins[name];
-      const message = `Olá! O site do Refúgio Nômade me recomendou a Cabin ${name} ${momentText[state.moment]}. Gostaria de consultar disponibilidade e valores.`;
-      el.cta.href = waLink(message);
-      el.cta.textContent = `Consultar a Cabin ${name}`;
-      if (name === current) return;
-      current = name;
-
-      result.classList.add('is-swapping');
-      window.setTimeout(() => {
-        el.name.textContent = `Cabin ${name}`;
-        el.text.textContent = data.copy;
-        el.traits.textContent = data.traits.join(' · ');
-        result.classList.remove('is-swapping');
+      const pick = recommend(state.vibe, state.moment);
+      cta.dataset.plan = pick;
+      cta.textContent = `Planejar na ${pick}`;
+      if (pick === current) return;
+      current = pick;
+      verdict.classList.add('is-swapping');
+      setTimeout(() => {
+        name.textContent = `Cabin ${pick}`;
+        why.textContent = CABINS[pick].why;
+        verdict.classList.remove('is-swapping');
       }, SWAP_MS);
-      swapImage(el.image, data.image, data.alt);
     };
 
-    finder.querySelectorAll('.options').forEach((group) => {
-      const key = group.dataset.group;
-      const buttons = [...group.querySelectorAll('.option')];
-      buttons.forEach((button) => {
-        button.addEventListener('click', () => {
-          buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
-          state[key] = button.dataset.value;
-          render();
-        });
-      });
+    $$('.options').forEach((group) => {
+      const buttons = $$('.option', group);
+      buttons.forEach((b) => b.addEventListener('click', () => {
+        buttons.forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+        state[group.dataset.group] = b.dataset.value;
+        render();
+      }));
     });
-
-    render();
   }
 
-  /* ---------- 04 Um dia aqui ---------- */
+  /* ---------- IV. Um dia ---------- */
 
-  const dayData = [
-    { time: '07:02', copy: 'Você ainda não precisa levantar.', image: IMG.manha, alt: 'Luz da manhã entrando em um chalé' },
-    { time: '08:15', copy: 'Café quente, frutas, pães e nenhuma fila de buffet.', image: IMG.horizonte, alt: 'Chalé com fachada envidraçada pela manhã' },
-    { time: '10:48', copy: 'Talvez uma caminhada. Talvez um livro. Talvez nada.', image: IMG.orvalho, alt: 'Chalé A-frame cercado pelo cerrado' },
-    { time: '16:40', copy: 'O ar começa a mudar. É uma boa hora para banho quente.', image: IMG.bruma, alt: 'Chalé com deck e piscina no fim da tarde' },
-    { time: '19:18', copy: 'A mata escurece e as luzes do chalé acendem.', image: IMG.lua, alt: 'Chalé A-frame iluminado ao anoitecer' },
-    { time: '22:03', copy: 'Nenhum compromisso amanhã cedo.', image: IMG.noite, alt: 'Chalé iluminado entre árvores à noite' }
+  const DAY = [
+    { time: '07:02', copy: 'Você ainda não precisa levantar.', id: 'photo-1529047033375-f402d3da24ca', alt: 'Luz da manhã desenhando a janela na parede, sobre a cama' },
+    { time: '08:15', copy: 'Café coado, frutas, pão da região. Tudo na sua porta.', id: 'photo-1552841872-a0841f72a4ee', alt: 'Bandeja de café da manhã com prensa francesa e frutas sobre lençóis' },
+    { time: '10:48', copy: 'Os paredões ficam a poucos minutos. A rede, a poucos passos.', id: 'photo-1559562591-6de6f7187f56', alt: 'Vale verde entre paredões de pedra' },
+    { time: '16:40', copy: 'A água já está quente. O sol ainda não foi embora.', id: 'photo-1725590137329-f182b5a8fac3', alt: 'Banheira sobre deck de madeira com vista para os morros' },
+    { time: '19:18', copy: 'A lenha estava arrumada desde a tarde.', id: 'photo-1627911206549-6c41ed2524de', alt: 'Fogueira acesa no início da noite' },
+    { time: '22:03', copy: 'Nenhum compromisso amanhã cedo.', id: 'photo-1601919297600-8ffbfd160d2d', alt: 'Cabin A-frame iluminada por dentro, vista de baixo, à noite' }
   ];
+  const steps = $$('.day-step');
+  const dayImg = $('#day-image');
+  steps.forEach((step) => step.addEventListener('click', () => {
+    const d = DAY[Number(step.dataset.step)];
+    if (!d) return;
+    steps.forEach((s) => s.setAttribute('aria-pressed', String(s === step)));
+    $('#day-time').textContent = d.time;
+    $('#day-copy').textContent = d.copy;
+    if (dayImg) swapImage(dayImg, d.id, d.alt);
+  }));
 
-  const steps = [...document.querySelectorAll('.day-step')];
-  const dayImage = document.getElementById('day-image');
-  const dayTime = document.getElementById('day-time');
-  const dayCopy = document.getElementById('day-copy');
+  /* ---------- VII. Planejar estadia ---------- */
 
-  steps.forEach((step) => {
-    step.addEventListener('click', () => {
-      const data = dayData[Number(step.dataset.step)];
-      if (!data) return;
-      steps.forEach((s) => s.setAttribute('aria-pressed', String(s === step)));
-      dayTime.textContent = data.time;
-      dayCopy.textContent = data.copy;
-      swapImage(dayImage, data.image, data.alt);
-    });
-  });
+  const form = $('#plan-form');
+  if (form) {
+    const checkin = $('#checkin');
+    const checkout = $('#checkout');
+    const error = $('#date-error');
+    const out = {
+      cabin: $('#sum-cabin'), dates: $('#sum-dates'), nights: $('#sum-nights'),
+      extras: $('#sum-extras'), total: $('#sum-total')
+    };
+    const DAY_MS = 86400000;
+    const MIN_NIGHTS = 2;
+    const iso = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    const parse = (v) => (v ? new Date(`${v}T12:00:00`) : null);
+    const fmt = (d) => d.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' }).replace('.', '');
 
-  /* ---------- Entrada discreta, uma por bloco ---------- */
+    const today = new Date();
+    checkin.min = iso(today);
+    checkout.min = iso(new Date(today.getTime() + MIN_NIGHTS * DAY_MS));
 
-  const reveals = document.querySelectorAll('.reveal');
-  if (reducedMotion || !('IntersectionObserver' in window)) {
-    reveals.forEach((node) => node.classList.add('is-visible'));
-  } else {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        io.unobserve(entry.target);
+    const selectedCabin = () => $('input[name="cabin"]:checked', form);
+
+    const read = () => {
+      const cabin = selectedCabin();
+      const a = parse(checkin.value);
+      const b = parse(checkout.value);
+      const nights = a && b ? Math.round((b - a) / DAY_MS) : 0;
+      const extras = $$('input[name="extra"]:checked', form);
+      return { cabin, a, b, nights, extras };
+    };
+
+    const dateProblem = ({ a, b, nights }, strict) => {
+      if (!a || !b) return strict ? 'Escolha a data de chegada e a de saída.' : '';
+      if (a < parse(iso(today))) return 'A chegada precisa ser a partir de hoje.';
+      if (nights < 1) return 'A saída precisa ser depois da chegada.';
+      if (nights < MIN_NIGHTS) return `A estadia mínima é de ${MIN_NIGHTS} noites.`;
+      return '';
+    };
+
+    const showError = (msg) => {
+      error.textContent = msg;
+      const bad = Boolean(msg);
+      checkin.setAttribute('aria-invalid', String(bad && (!checkin.value || msg.includes('chegada'))));
+      checkout.setAttribute('aria-invalid', String(bad && Boolean(checkin.value) && !msg.includes('chegada precisa')));
+    };
+
+    const syncExtras = (cabinName) => {
+      $$('.check[data-only]', form).forEach((label) => {
+        const ok = label.dataset.only.split(' ').includes(cabinName);
+        const input = $('input', label);
+        label.classList.toggle('is-unavailable', !ok);
+        input.disabled = !ok;
+        if (!ok) input.checked = false;
+        $('.price', label).textContent = ok ? brl.format(Number(input.dataset.price)) : 'Só Bruma e Lua';
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach((node) => io.observe(node));
+    };
+
+    const update = (touched) => {
+      const s = read();
+      const name = s.cabin.value;
+      syncExtras(name);
+      s.extras = $$('input[name="extra"]:checked', form);
+      out.cabin.textContent = name;
+      out.dates.textContent = s.a && s.b ? `${fmt(s.a)} — ${fmt(s.b)}` : 'Escolha as datas';
+      const problem = dateProblem(s, false);
+      if (touched) showError(problem);
+      const valid = s.a && s.b && !problem;
+      out.nights.textContent = valid ? String(s.nights) : '—';
+      out.extras.textContent = s.extras.length ? s.extras.map((x) => x.value).join(', ') : 'Nenhum';
+      const extrasTotal = s.extras.reduce((sum, x) => sum + Number(x.dataset.price), 0);
+      out.total.textContent = valid ? brl.format(s.nights * Number(s.cabin.dataset.rate) + extrasTotal) : '—';
+      return { ...s, valid, extrasTotal };
+    };
+
+    checkin.addEventListener('change', () => {
+      const a = parse(checkin.value);
+      if (a) {
+        const minOut = new Date(a.getTime() + MIN_NIGHTS * DAY_MS);
+        checkout.min = iso(minOut);
+        const b = parse(checkout.value);
+        if (!b || b < minOut) checkout.value = iso(minOut);
+      }
+      update(true);
+    });
+    checkout.addEventListener('change', () => update(true));
+    form.addEventListener('change', (e) => { if (e.target.name !== 'checkin' && e.target.name !== 'checkout') update(false); });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const s = update(true);
+      const problem = dateProblem(s, true);
+      if (problem) {
+        showError(problem);
+        (s.a ? checkout : checkin).focus();
+        return;
+      }
+      const lines = [
+        'Olá! Montei uma estadia pelo site do Refúgio Nômade:',
+        `Cabin ${s.cabin.value}`,
+        `Chegada ${s.a.toLocaleDateString('pt-BR')} e saída ${s.b.toLocaleDateString('pt-BR')} (${s.nights} noites)`,
+        s.extras.length ? `Preparos: ${s.extras.map((x) => x.value).join(', ')}` : 'Sem preparos extras',
+        `Estimativa do site: ${out.total.textContent}`,
+        'Podem confirmar a disponibilidade e os valores?'
+      ];
+      window.open(waLink(lines.join('\n')), '_blank', 'noopener');
+    });
+
+    // Links "Planejar na X" escolhem a cabin no formulário.
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('[data-plan]');
+      if (!link) return;
+      const radio = $(`input[name="cabin"][value="${link.dataset.plan}"]`, form);
+      if (radio) { radio.checked = true; update(false); }
+    });
+
+    update(false);
   }
 
-  /* ---------- Filete do cabeçalho e barra de contato no celular ---------- */
+  /* ---------- Entrada discreta ---------- */
 
-  const hero = document.querySelector('.hero-copy');
-  const closing = document.querySelector('.closing');
-  const bar = document.querySelector('.mobile-bar');
-  let heroGone = false;
-  let closingIn = false;
-  const syncBar = () => bar?.classList.toggle('is-visible', heroGone && !closingIn);
+  const reveals = $$('.reveal');
+  if (reducedMotion || !('IntersectionObserver' in window)) {
+    reveals.forEach((n) => n.classList.add('is-visible'));
+  } else {
+    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('is-visible');
+      io.unobserve(en.target);
+    }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach((n) => io.observe(n));
+  }
 
+  /* ---------- Filete do cabeçalho e barra do celular ---------- */
+
+  const bar = $('.mobile-bar');
+  const watched = { hero: true, planner: false, closing: false };
+  const syncBar = () => bar?.classList.toggle('is-visible', !watched.hero && !watched.planner && !watched.closing);
   if ('IntersectionObserver' in window) {
-    if (hero) {
-      new IntersectionObserver(([entry]) => {
-        heroGone = !entry.isIntersecting;
-        header?.classList.toggle('is-scrolled', heroGone || window.scrollY > 8);
-        syncBar();
-      }).observe(hero);
-    }
-    if (closing) {
-      new IntersectionObserver(([entry]) => { closingIn = entry.isIntersecting; syncBar(); }).observe(closing);
-    }
+    [['hero', '.hero-copy'], ['planner', '#planejar'], ['closing', '.closing-inner']].forEach(([key, sel]) => {
+      const el = $(sel);
+      if (!el) return;
+      new IntersectionObserver(([en]) => { watched[key] = en.isIntersecting; syncBar(); }).observe(el);
+    });
   }
-  window.addEventListener('scroll', () => {
-    header?.classList.toggle('is-scrolled', window.scrollY > 8);
-  }, { passive: true });
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 })();
