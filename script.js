@@ -1,419 +1,244 @@
-const menuToggle = document.querySelector('.menu-toggle');
-const nav = document.querySelector('.main-nav');
+/* Refúgio Nômade — v6 quiet luxury */
+(() => {
+  'use strict';
 
-if (menuToggle && nav) {
-  menuToggle.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    menuToggle.setAttribute('aria-expanded', String(open));
+  document.documentElement.classList.add('js');
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SWAP_MS = reducedMotion ? 0 : 280;
+
+  /* ---------- WhatsApp: uma única fonte para as mensagens ---------- */
+
+  const WHATSAPP = '5565999999999';
+  const waMessages = {
+    geral: 'Olá! Vim pelo site do Refúgio Nômade e gostaria de consultar disponibilidade, valores e cabins para uma hospedagem.',
+    ajuda: 'Olá! Vim pelo site do Refúgio Nômade e gostaria de ajuda para escolher qual cabin combina mais com a viagem que estou planejando.',
+    experiencias: 'Olá! Vim pelo site do Refúgio Nômade e gostaria de conhecer as experiências que podem ser adicionadas à hospedagem.'
+  };
+  const waLink = (text) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
+  const cabinMessage = (name) =>
+    `Olá! Vim pelo site do Refúgio Nômade e gostaria de consultar disponibilidade e valores para a Cabin ${name}.`;
+
+  document.querySelectorAll('[data-wa]').forEach((link) => {
+    const key = link.dataset.wa;
+    link.href = waLink(waMessages[key] || cabinMessage(key));
   });
 
-  nav.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    });
-  });
-}
+  /* ---------- Cabeçalho e menu ---------- */
 
-const motiveItems = document.querySelectorAll('.motive-item');
-const motiveImage = document.getElementById('motive-image');
-const motiveNumber = document.getElementById('motive-number');
-const motiveTitle = document.getElementById('motive-title');
-const motiveCopy = document.getElementById('motive-copy');
-const motiveLink = document.getElementById('motive-link');
+  const header = document.querySelector('.site-header');
+  const toggle = document.querySelector('.menu-toggle');
+  const nav = document.getElementById('main-nav');
+  const toggleLabel = toggle?.querySelector('.menu-toggle-label');
 
-motiveItems.forEach((item, index) => {
-  item.querySelector('button').addEventListener('click', () => {
-    motiveItems.forEach(other => other.classList.remove('active'));
-    item.classList.add('active');
+  const setMenu = (open) => {
+    if (!toggle || !nav) return;
+    nav.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    if (toggleLabel) toggleLabel.textContent = open ? 'Fechar' : 'Menu';
+  };
 
-    motiveNumber.textContent = String(index + 1).padStart(2, '0');
-    motiveTitle.textContent = item.dataset.title;
-    motiveCopy.textContent = item.dataset.copy;
-    motiveLink.href = item.dataset.link;
-    motiveLink.textContent = item.dataset.cta;
-    motiveImage.src = item.dataset.image;
-    motiveImage.alt = item.dataset.title;
-
-    if (window.innerWidth <= 720) {
-      setTimeout(() => {
-        document.querySelector('.motive-stage')?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }, 80);
+  toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+  nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      setMenu(false);
+      toggle.focus();
     }
   });
-});
 
-const daySteps = document.querySelectorAll('.day-step');
-const dayImage = document.getElementById('day-image');
-const dayTime = document.getElementById('day-time');
-const dayCopy = document.getElementById('day-copy');
+  /* ---------- Imagens: falha silenciosa, sem quebrar o layout ---------- */
 
-const dayData = [
-  {
-    time: '07:02',
-    copy: 'Você ainda não precisa levantar.',
-    image: 'https://storage.googleapis.com/production-hostgator-brasil-v1-0-9/789/866789/nM4Ek4OJ/2f94db7997754373a3104445309502f4'
-  },
-  {
-    time: '08:15',
-    copy: 'Café quente, frutas, pães e nenhuma fila de buffet.',
-    image: 'https://a0.muscache.com/im/pictures/80597a72-1e64-4705-b9a1-3f32ebe99bbc.jpg'
-  },
-  {
-    time: '10:48',
-    copy: 'Talvez uma caminhada. Talvez um livro. Talvez nada.',
-    image: 'https://exploreturdf.com.br/wp-content/uploads/2022/11/DSC03615-scaled-e1667333240603.jpg'
-  },
-  {
-    time: '16:40',
-    copy: 'O ar começa a mudar. É uma boa hora para banho quente.',
-    image: 'https://storage.googleapis.com/production-hostgator-brasil-v1-0-9/789/866789/nM4Ek4OJ/6b6874af0d17499ba0085601802a1f6f'
-  },
-  {
-    time: '19:18',
-    copy: 'A mata escurece e as luzes do chalé acendem.',
-    image: 'https://a0.muscache.com/im/pictures/hosting/Hosting-1252503166432124872/original/68f434cc-94cc-4aa7-b6c9-ece641fa9632.jpeg'
-  },
-  {
-    time: '22:03',
-    copy: 'Nenhum compromisso amanhã cedo.',
-    image: 'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQyNDEwNTU1MTg0NjI4MTcyMw%3D%3D/original/e1d58c79-560b-4803-8367-a3b180acc2c5.jpeg'
-  }
-];
-
-daySteps.forEach(step => {
-  step.addEventListener('click', () => {
-    daySteps.forEach(other => other.classList.remove('active'));
-    step.classList.add('active');
-
-    const data = dayData[Number(step.dataset.step)];
-    dayTime.textContent = data.time;
-    dayCopy.textContent = data.copy;
-    dayImage.src = data.image;
-    dayImage.alt = `Chalé A-frame no Refúgio Nômade — ${data.time}`;
+  const markBroken = (img) => img.closest('.frame')?.classList.add('is-broken');
+  document.querySelectorAll('.frame img').forEach((img) => {
+    if (img.complete && img.naturalWidth === 0) markBroken(img);
+    img.addEventListener('error', () => markBroken(img));
+    img.addEventListener('load', () => img.closest('.frame')?.classList.remove('is-broken'));
   });
-});
 
-document.querySelectorAll('.faq-question').forEach(button => {
-  button.addEventListener('click', () => {
-    const item = button.closest('.faq-item');
-    const open = item.classList.toggle('open');
-    button.setAttribute('aria-expanded', String(open));
-  });
-});
+  /* Troca uma imagem com um fade curto, só depois que a nova carregou. */
+  const swapImage = (img, src, alt) => {
+    const frame = img.closest('.frame');
+    img.dataset.target = src;               // a última escolha sempre vence
+    if (img.getAttribute('src') === src) { img.alt = alt; frame?.classList.remove('is-swapping'); return; }
+    const preload = new Image();
+    const apply = () => {
+      if (img.dataset.target !== src) return;
+      img.src = src;
+      img.alt = alt;
+      window.setTimeout(() => frame?.classList.remove('is-swapping'), 20);
+    };
+    frame?.classList.add('is-swapping');
+    preload.onload = () => window.setTimeout(apply, SWAP_MS);
+    preload.onerror = apply;
+    preload.src = src;
+  };
 
-document.querySelectorAll('img').forEach(img => {
-  img.addEventListener('error', () => {
-    const hero = img.closest('.hero-photo');
-    if (hero) hero.classList.add('image-error');
+  /* ---------- 02 Sua pausa: recomendação de cabin ---------- */
 
-    const wrap = img.parentElement;
-    if (wrap) {
-      wrap.style.background = 'linear-gradient(135deg,#18211C,#6A4B35)';
-      img.style.display = 'none';
-    }
-  });
-});
-
-const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-if (!reduced && 'IntersectionObserver' in window) {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-} else {
-  document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
-}
-
-
-// =========================================================
-// ESTRATÉGICO V4 — motion and contextual experience
-// =========================================================
-const motionReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const finePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-
-// Ambient hero: slow breathing lives in CSS; pointer only adds a few pixels of depth.
-const heroScene = document.querySelector('[data-depth-scene]');
-if (heroScene && finePointer && !motionReduced) {
-  heroScene.addEventListener('pointermove', (event) => {
-    const rect = heroScene.getBoundingClientRect();
-    const nx = (event.clientX - rect.left) / rect.width - .5;
-    const ny = (event.clientY - rect.top) / rect.height - .5;
-    heroScene.style.setProperty('--hero-x', `${nx * -7}px`);
-    heroScene.style.setProperty('--hero-y', `${ny * -5}px`);
-    heroScene.style.setProperty('--hero-light-x', `${(nx + .5) * 100}%`);
-    heroScene.style.setProperty('--hero-light-y', `${(ny + .5) * 100}%`);
-  });
-  heroScene.addEventListener('pointerleave', () => {
-    heroScene.style.setProperty('--hero-x', '0px');
-    heroScene.style.setProperty('--hero-y', '0px');
-    heroScene.style.setProperty('--hero-light-x', '45%');
-    heroScene.style.setProperty('--hero-light-y', '38%');
-  });
-}
-
-// Ambient light follows the pointer only inside the strategic selector.
-document.querySelectorAll('[data-pointer-ambient]').forEach(section => {
-  if (!finePointer || motionReduced) return;
-  section.addEventListener('pointermove', event => {
-    const rect = section.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
-    section.style.setProperty('--ambient-x', `${x}%`);
-    section.style.setProperty('--ambient-y', `${y}%`);
-  });
-});
-
-// Small photographic depth on the result card.
-document.querySelectorAll('[data-tilt-card]').forEach(card => {
-  if (!finePointer || motionReduced) return;
-  card.addEventListener('pointermove', event => {
-    const rect = card.getBoundingClientRect();
-    const nx = (event.clientX - rect.left) / rect.width - .5;
-    const ny = (event.clientY - rect.top) / rect.height - .5;
-    card.style.setProperty('--tilt-x', `${nx * -9}px`);
-    card.style.setProperty('--tilt-y', `${ny * -7}px`);
-  });
-  card.addEventListener('pointerleave', () => {
-    card.style.setProperty('--tilt-x', '0px');
-    card.style.setProperty('--tilt-y', '0px');
-  });
-});
-
-// Cabin recommender.
-const finder = document.querySelector('.finder-section');
-if (finder) {
-  const result = document.getElementById('finder-result');
-  const title = document.getElementById('finder-title');
-  const copy = document.getElementById('finder-copy');
-  const image = document.getElementById('finder-image');
-  const badge = document.getElementById('finder-badge');
-  const reasons = document.getElementById('finder-reasons');
-  const cta = document.getElementById('finder-cta');
-
-  let vibe = finder.querySelector('[data-vibe].active')?.dataset.vibe || 'isolamento';
-  let moment = finder.querySelector('[data-moment].active')?.dataset.moment || 'dois';
+  const IMG = {
+    bruma: 'https://storage.googleapis.com/production-hostgator-brasil-v1-0-9/789/866789/nM4Ek4OJ/6b6874af0d17499ba0085601802a1f6f',
+    horizonte: 'https://a0.muscache.com/im/pictures/80597a72-1e64-4705-b9a1-3f32ebe99bbc.jpg',
+    orvalho: 'https://exploreturdf.com.br/wp-content/uploads/2022/11/DSC03615-scaled-e1667333240603.jpg',
+    lua: 'https://a0.muscache.com/im/pictures/hosting/Hosting-1252503166432124872/original/68f434cc-94cc-4aa7-b6c9-ece641fa9632.jpeg',
+    manha: 'https://storage.googleapis.com/production-hostgator-brasil-v1-0-9/789/866789/nM4Ek4OJ/2f94db7997754373a3104445309502f4',
+    noite: 'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQyNDEwNTU1MTg0NjI4MTcyMw%3D%3D/original/e1d58c79-560b-4803-8367-a3b180acc2c5.jpeg'
+  };
 
   const cabins = {
     Bruma: {
-      image: 'https://storage.googleapis.com/production-hostgator-brasil-v1-0-9/789/866789/nM4Ek4OJ/6b6874af0d17499ba0085601802a1f6f',
-      alt: 'Cabin Bruma reservada entre árvores',
-      badge: 'mais reservada',
+      image: IMG.bruma,
+      alt: 'Cabin Bruma, reservada entre árvores',
       copy: 'Mais reservada, cercada pela mata e pensada para quem quer diminuir o ritmo sem desaparecer do conforto.',
-      reasons: ['mais privacidade','banheira externa','ritmo mais lento']
+      traits: ['Mais privacidade', 'Banheira externa', 'Ritmo mais lento']
     },
     Horizonte: {
-      image: 'https://a0.muscache.com/im/pictures/80597a72-1e64-4705-b9a1-3f32ebe99bbc.jpg',
-      alt: 'Cabin Horizonte com fachada envidraçada e vista',
-      badge: 'vista e luz',
+      image: IMG.horizonte,
+      alt: 'Cabin Horizonte, com fachada envidraçada e vista',
       copy: 'Uma cabin para quem quer abrir os olhos e encontrar a paisagem antes de encontrar qualquer compromisso.',
-      reasons: ['fachada envidraçada','deck panorâmico','luz natural']
+      traits: ['Fachada envidraçada', 'Deck panorâmico', 'Luz natural']
     },
     Orvalho: {
-      image: 'https://exploreturdf.com.br/wp-content/uploads/2022/11/DSC03615-scaled-e1667333240603.jpg',
-      alt: 'Cabin Orvalho cercada pela natureza',
-      badge: 'perto da mata',
+      image: IMG.orvalho,
+      alt: 'Cabin Orvalho, cercada pela natureza',
       copy: 'Equilíbrio entre conforto, natureza e simplicidade. Uma boa primeira experiência para entrar no ritmo do Refúgio.',
-      reasons: ['deck privativo','café sem pressa','natureza por perto']
+      traits: ['Deck privativo', 'Café sem pressa', 'Natureza por perto']
     },
     Lua: {
-      image: 'https://a0.muscache.com/im/pictures/hosting/Hosting-1252503166432124872/original/68f434cc-94cc-4aa7-b6c9-ece641fa9632.jpeg',
-      alt: 'Cabin Lua iluminada ao anoitecer',
-      badge: 'noite especial',
+      image: IMG.lua,
+      alt: 'Cabin Lua, iluminada ao anoitecer',
       copy: 'Mais espaço, atmosfera noturna e detalhes pensados para quando a própria hospedagem faz parte da ocasião.',
-      reasons: ['banheira de imersão','mais espaço','clima para celebrar']
+      traits: ['Banheira de imersão', 'Mais espaço', 'Clima para celebrar']
     }
   };
 
-  function recommendation(v, m) {
-    // Strong preference comes first, with the second answer refining close cases.
-    if (v === 'noite' || m === 'celebrar') return 'Lua';
-    if (v === 'vista') return m === 'sozinho' ? 'Horizonte' : 'Horizonte';
-    if (v === 'mata') return m === 'celebrar' ? 'Lua' : 'Orvalho';
-    if (v === 'isolamento') return m === 'sem-agenda' || m === 'sozinho' || m === 'dois' ? 'Bruma' : 'Lua';
+  // A preferência principal decide; a segunda resposta só desempata casos próximos.
+  const recommend = (vibe, moment) => {
+    if (vibe === 'noite' || moment === 'celebrar') return 'Lua';
+    if (vibe === 'vista') return 'Horizonte';
+    if (vibe === 'mata') return 'Orvalho';
     return 'Bruma';
-  }
-
-  function updateFinder() {
-    const name = recommendation(vibe, moment);
-    const data = cabins[name];
-    result?.classList.add('is-changing');
-    window.setTimeout(() => {
-      title.textContent = `Cabin ${name}`;
-      copy.textContent = data.copy;
-      image.src = data.image;
-      image.alt = data.alt;
-      badge.textContent = data.badge;
-      reasons.innerHTML = data.reasons.map(reason => `<span>${reason}</span>`).join('');
-      const msg = encodeURIComponent(`Olá! O site me recomendou a Cabin ${name} e gostaria de consultar disponibilidade e valores.`);
-      cta.href = `https://wa.me/5565999999999?text=${msg}`;
-      cta.textContent = `Consultar a Cabin ${name} pelo WhatsApp ↗`;
-      requestAnimationFrame(() => result?.classList.remove('is-changing'));
-    }, motionReduced ? 0 : 190);
-  }
-
-  finder.querySelectorAll('[data-vibe]').forEach(button => {
-    button.addEventListener('click', () => {
-      finder.querySelectorAll('[data-vibe]').forEach(other => other.classList.remove('active'));
-      button.classList.add('active');
-      vibe = button.dataset.vibe;
-      updateFinder();
-    });
-  });
-
-  finder.querySelectorAll('[data-moment]').forEach(button => {
-    button.addEventListener('click', () => {
-      finder.querySelectorAll('[data-moment]').forEach(other => other.classList.remove('active'));
-      button.classList.add('active');
-      moment = button.dataset.moment;
-      updateFinder();
-    });
-  });
-}
-
-// Day-stage transition: different warmth along the day.
-const dayStage = document.querySelector('.day-stage');
-const dayWarmth = [0.06,0.10,0.03,0.12,0.18,0.07];
-if (dayStage && daySteps.length) {
-  daySteps.forEach(step => {
-    step.addEventListener('click', () => {
-      const idx = Number(step.dataset.step);
-      dayStage.classList.add('day-changing');
-      dayStage.style.setProperty('--day-warmth', String(dayWarmth[idx] ?? .05));
-      window.setTimeout(() => dayStage.classList.remove('day-changing'), motionReduced ? 0 : 320);
-    });
-  });
-}
-
-// Stillness sequence: the scrolling itself slows the narrative down.
-const stillness = document.querySelector('.stillness-section');
-if (stillness && !motionReduced && window.innerWidth > 720) {
-  const phrases = [...stillness.querySelectorAll('.stillness-phrases p')];
-  const imageStage = stillness.querySelector('.stillness-sticky');
-  let ticking = false;
-
-  const updateStillness = () => {
-    const rect = stillness.getBoundingClientRect();
-    const travel = Math.max(1, stillness.offsetHeight - window.innerHeight);
-    const progress = Math.min(1, Math.max(0, -rect.top / travel));
-    const index = Math.min(phrases.length - 1, Math.floor(progress * phrases.length));
-    phrases.forEach((p, i) => p.classList.toggle('active', i === index));
-    imageStage?.style.setProperty('--still-y', `${(progress - .5) * -22}px`);
-    ticking = false;
   };
 
-  const onScroll = () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(updateStillness);
-    }
-  };
-  updateStillness();
-  window.addEventListener('scroll', onScroll, { passive: true });
-}
+  const finder = document.getElementById('pausa');
+  if (finder) {
+    const state = { vibe: 'isolamento', moment: 'dois' };
+    const result = finder.querySelector('.finder-result');
+    const el = {
+      image: document.getElementById('finder-image'),
+      name: document.getElementById('finder-name'),
+      text: document.getElementById('finder-text'),
+      traits: document.getElementById('finder-traits'),
+      cta: document.getElementById('finder-cta')
+    };
+    let current = 'Bruma';
 
+    const momentText = {
+      dois: 'para um fim de semana a dois',
+      sozinho: 'para alguns dias só comigo',
+      celebrar: 'para celebrar uma data especial',
+      'sem-agenda': 'para alguns dias sem agenda'
+    };
 
-// =========================================================
-// ESTRATÉGICO V5 — ciclo de luz guiado pelo scroll
-// A passagem começa em "Um dia por aqui" para preservar os
-// estados visuais das áreas já utilizadas no portfólio.
-// =========================================================
-(() => {
-  const startSection = document.querySelector('.day-section');
-  const endSection = document.querySelector('.final-cta');
-  const dayStageEl = document.querySelector('.day-stage');
+    const render = () => {
+      const name = recommend(state.vibe, state.moment);
+      const data = cabins[name];
+      const message = `Olá! O site do Refúgio Nômade me recomendou a Cabin ${name} ${momentText[state.moment]}. Gostaria de consultar disponibilidade e valores.`;
+      el.cta.href = waLink(message);
+      el.cta.textContent = `Consultar a Cabin ${name}`;
+      if (name === current) return;
+      current = name;
 
-  if (!startSection || !endSection) return;
+      result.classList.add('is-swapping');
+      window.setTimeout(() => {
+        el.name.textContent = `Cabin ${name}`;
+        el.text.textContent = data.copy;
+        el.traits.textContent = data.traits.join(' · ');
+        result.classList.remove('is-swapping');
+      }, SWAP_MS);
+      swapImage(el.image, data.image, data.alt);
+    };
 
-  const root = document.documentElement;
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    finder.querySelectorAll('.options').forEach((group) => {
+      const key = group.dataset.group;
+      const buttons = [...group.querySelectorAll('.option')];
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+          state[key] = button.dataset.value;
+          render();
+        });
+      });
+    });
 
-  // Morning -> warm dusk -> deep green -> night.
-  const stops = [
-    { p: 0.00, c: [43, 54, 43], warm: 0.05, night: 0.00 },
-    { p: 0.22, c: [60, 47, 34], warm: 0.17, night: 0.12 },
-    { p: 0.45, c: [34, 39, 31], warm: 0.11, night: 0.30 },
-    { p: 0.68, c: [20, 27, 22], warm: 0.055, night: 0.54 },
-    { p: 0.84, c: [12, 17, 14], warm: 0.025, night: 0.74 },
-    { p: 1.00, c: [6, 9, 7], warm: 0.00, night: 0.94 }
+    render();
+  }
+
+  /* ---------- 04 Um dia aqui ---------- */
+
+  const dayData = [
+    { time: '07:02', copy: 'Você ainda não precisa levantar.', image: IMG.manha, alt: 'Luz da manhã entrando em um chalé' },
+    { time: '08:15', copy: 'Café quente, frutas, pães e nenhuma fila de buffet.', image: IMG.horizonte, alt: 'Chalé com fachada envidraçada pela manhã' },
+    { time: '10:48', copy: 'Talvez uma caminhada. Talvez um livro. Talvez nada.', image: IMG.orvalho, alt: 'Chalé A-frame cercado pelo cerrado' },
+    { time: '16:40', copy: 'O ar começa a mudar. É uma boa hora para banho quente.', image: IMG.bruma, alt: 'Chalé com deck e piscina no fim da tarde' },
+    { time: '19:18', copy: 'A mata escurece e as luzes do chalé acendem.', image: IMG.lua, alt: 'Chalé A-frame iluminado ao anoitecer' },
+    { time: '22:03', copy: 'Nenhum compromisso amanhã cedo.', image: IMG.noite, alt: 'Chalé iluminado entre árvores à noite' }
   ];
 
-  const clamp = (n, a = 0, b = 1) => Math.max(a, Math.min(b, n));
-  const lerp = (a, b, t) => a + (b - a) * t;
+  const steps = [...document.querySelectorAll('.day-step')];
+  const dayImage = document.getElementById('day-image');
+  const dayTime = document.getElementById('day-time');
+  const dayCopy = document.getElementById('day-copy');
 
-  function sample(progress) {
-    const p = clamp(progress);
-    let a = stops[0], b = stops[stops.length - 1];
+  steps.forEach((step) => {
+    step.addEventListener('click', () => {
+      const data = dayData[Number(step.dataset.step)];
+      if (!data) return;
+      steps.forEach((s) => s.setAttribute('aria-pressed', String(s === step)));
+      dayTime.textContent = data.time;
+      dayCopy.textContent = data.copy;
+      swapImage(dayImage, data.image, data.alt);
+    });
+  });
 
-    for (let i = 0; i < stops.length - 1; i++) {
-      if (p >= stops[i].p && p <= stops[i + 1].p) {
-        a = stops[i];
-        b = stops[i + 1];
-        break;
-      }
-    }
+  /* ---------- Entrada discreta, uma por bloco ---------- */
 
-    const span = Math.max(.0001, b.p - a.p);
-    const t = clamp((p - a.p) / span);
-
-    return {
-      c: a.c.map((v, i) => Math.round(lerp(v, b.c[i], t))),
-      warm: lerp(a.warm, b.warm, t),
-      night: lerp(a.night, b.night, t)
-    };
+  const reveals = document.querySelectorAll('.reveal');
+  if (reducedMotion || !('IntersectionObserver' in window)) {
+    reveals.forEach((node) => node.classList.add('is-visible'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach((node) => io.observe(node));
   }
 
-  let raf = 0;
+  /* ---------- Filete do cabeçalho e barra de contato no celular ---------- */
 
-  function updateCycle() {
-    raf = 0;
+  const hero = document.querySelector('.hero-copy');
+  const closing = document.querySelector('.closing');
+  const bar = document.querySelector('.mobile-bar');
+  let heroGone = false;
+  let closingIn = false;
+  const syncBar = () => bar?.classList.toggle('is-visible', heroGone && !closingIn);
 
-    if (reducedMotion) {
-      root.style.setProperty('--cycle-bg-r', '18');
-      root.style.setProperty('--cycle-bg-g', '24');
-      root.style.setProperty('--cycle-bg-b', '20');
-      root.style.setProperty('--cycle-warmth', '.03');
-      root.style.setProperty('--cycle-night', '.55');
-      dayStageEl?.style.setProperty('--scroll-dim', '.45');
-      return;
+  if ('IntersectionObserver' in window) {
+    if (hero) {
+      new IntersectionObserver(([entry]) => {
+        heroGone = !entry.isIntersecting;
+        header?.classList.toggle('is-scrolled', heroGone || window.scrollY > 8);
+        syncBar();
+      }).observe(hero);
     }
-
-    const start = startSection.offsetTop - window.innerHeight * 0.55;
-    const end = endSection.offsetTop + endSection.offsetHeight - window.innerHeight * 0.45;
-    const progress = clamp((window.scrollY - start) / Math.max(1, end - start));
-
-    const state = sample(progress);
-    root.style.setProperty('--cycle-bg-r', String(state.c[0]));
-    root.style.setProperty('--cycle-bg-g', String(state.c[1]));
-    root.style.setProperty('--cycle-bg-b', String(state.c[2]));
-    root.style.setProperty('--cycle-warmth', state.warm.toFixed(3));
-    root.style.setProperty('--cycle-night', state.night.toFixed(3));
-
-    // Extra darkening inside the "day" visual itself so the passage is
-    // perceptible even before reaching the next section.
-    if (dayStageEl) {
-      const rect = startSection.getBoundingClientRect();
-      const localTravel = Math.max(1, startSection.offsetHeight + window.innerHeight * .25);
-      const local = clamp((-rect.top + window.innerHeight * .55) / localTravel);
-      dayStageEl.style.setProperty('--scroll-dim', local.toFixed(3));
+    if (closing) {
+      new IntersectionObserver(([entry]) => { closingIn = entry.isIntersecting; syncBar(); }).observe(closing);
     }
   }
-
-  function onScroll() {
-    if (!raf) raf = requestAnimationFrame(updateCycle);
-  }
-
-  updateCycle();
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
+  window.addEventListener('scroll', () => {
+    header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  }, { passive: true });
 })();
