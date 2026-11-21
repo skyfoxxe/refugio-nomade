@@ -22,6 +22,6 @@ Quiet luxury: o relatório anual de um banco privado, não um anúncio. Marfim `
 - Abas acessíveis (setas, Home e End), barra de reserva no celular, SEO técnico e Open Graph.
 
 ## Fotografias
-Todas do Unsplash, licença gratuita (unsplash.com/license), carregadas de `images.unsplash.com` com `srcset`. IDs: sStahKEhT9w, 8ZmwIbjOa9o, JSezq0Td59k, gmQr2-qWkYQ, zgn7gvDmUBg, NVhD7aGh9gQ, st6A3w5Sj3Y, RIQ96s3Uzso, kkEHvWJhhI8, _fzl2PQH6kw, ITdHSBGUWo4, IWiASwoFQvw.
+Todas do Unsplash, licença gratuita (unsplash.com/license), carregadas de `images.unsplash.com` com `srcset`. IDs: sStahKEhT9w, 8ZmwIbjOa9o, JSezq0Td59k, gmQr2-qWkYQ, f_6yPIgDxxs, NVhD7aGh9gQ, st6A3w5Sj3Y, RIQ96s3Uzso, kkEHvWJhhI8, _fzl2PQH6kw, ITdHSBGUWo4, IWiASwoFQvw.
 
 O projeto é fictício. Valores, WhatsApp, disponibilidade e operação comercial são apenas demonstrações de portfólio.
