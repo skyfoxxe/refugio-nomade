@@ -24,7 +24,14 @@
   --gutter: clamp(20px, 5vw, 72px);
   --max: 1320px;
   --section: clamp(112px, 13vw, 176px);
-  --ease: cubic-bezier(.22, 1, .36, 1);
+  /* Movimento: curvas e durações da skill animate */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-fast: 160ms;     /* troca de texto, ícones */
+  --dur-ui: 220ms;       /* painéis, troca de imagem, sanfona */
+  --dur-drawer: 300ms;   /* menu e barra do celular */
+  --dur-scene: 640ms;    /* entrada de bloco ao rolar (marketing) */
   --header-h: 76px;
 }
 
@@ -164,9 +171,17 @@ em { font-style: italic; }
   height: 100%;
   object-fit: cover;
   filter: saturate(.8) contrast(.97) sepia(.06);
-  transition: opacity .5s var(--ease);
+  transition: opacity var(--dur-ui) var(--ease-out);
 }
-.frame.is-swapping img { opacity: 0; }
+.js .frame img[loading="lazy"]:not(.is-loaded) { opacity: 0; }
+.frame.is-swapping img { opacity: 0; transition-duration: var(--dur-fast); }
+
+/* Hero: a foto se abre de baixo para cima, uma vez, na chegada (sem fade duplo) */
+.js .hero-media.reveal { opacity: 1; transform: none; }
+.js .hero-media .frame { clip-path: inset(100% 0 0 0); transition: clip-path 900ms var(--ease-out) 120ms; }
+.js .hero-media.is-visible .frame { clip-path: inset(0 0 0 0); }
+.js .hero-media .frame img { transform: scale(1.04); transition: transform 1400ms var(--ease-out) 120ms, opacity var(--dur-ui) var(--ease-out); }
+.js .hero-media.is-visible .frame img { transform: none; }
 .frame.is-broken img { visibility: hidden; }
 .frame.is-broken::after {
   content: "Refúgio Nômade";
@@ -345,8 +360,7 @@ figcaption > span:first-child {
 .cabin-tab[aria-selected="true"] .tab-name { font-style: italic; }
 
 .cabin-panel { outline-offset: 6px; }
-.cabin-panel:not([hidden]) { animation: panel-in .5s var(--ease); }
-@keyframes panel-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
 
 .cabin-detail {
   display: grid;
@@ -422,9 +436,9 @@ legend {
 .verdict .label { margin-bottom: 10px; }
 .verdict-name { font-family: var(--serif); font-size: var(--h3); line-height: 1.05; color: var(--ink); }
 .verdict-why { max-width: 46ch; margin: 12px 0 10px; }
-.verdict-name, .verdict-why { transition: opacity .3s var(--ease); }
+.verdict-name, .verdict-why { transition: opacity var(--dur-fast) var(--ease-out), filter var(--dur-fast) var(--ease-out); }
 .verdict.is-swapping .verdict-name,
-.verdict.is-swapping .verdict-why { opacity: 0; }
+.verdict.is-swapping .verdict-why { opacity: 0; filter: blur(2px); }
 
 /* IV. Um dia */
 .day-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 1fr) minmax(0, 5fr); align-items: start; }
@@ -599,9 +613,20 @@ summary::after {
   background:
     linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat,
     linear-gradient(currentColor, currentColor) center / 1px 100% no-repeat;
-  transition: transform .3s var(--ease);
+  transition: transform var(--dur-ui) var(--ease-out);
 }
 details[open] summary::after { transform: rotate(45deg); }
+
+/* Sanfona com altura medida pelo navegador (onde houver suporte) */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size var(--dur-ui) var(--ease-out), content-visibility var(--dur-ui) allow-discrete;
+  }
+  details[open]::details-content { block-size: auto; }
+}
 summary:hover { color: var(--accent); }
 details p { max-width: 56ch; padding-bottom: 28px; }
 
@@ -619,8 +644,74 @@ details p { max-width: 56ch; padding-bottom: 28px; }
 .mobile-bar { display: none; }
 
 /* Entrada: uma por bloco */
-.js .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.js .reveal { opacity: 0; transform: translateY(12px); transition: opacity var(--dur-scene) var(--ease-out), transform var(--dur-scene) var(--ease-out); transition-delay: var(--stagger, 0ms); }
 .js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* ---------- Camada Estratégica de movimento ---------- */
+
+/* Título do hero: cada palavra sobe de dentro de uma máscara, em cascata de 45 ms */
+.word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
+.js .word > span { display: inline-block; transform: translateY(105%); transition: transform 900ms var(--ease-out); transition-delay: calc(var(--i, 0) * 45ms + 80ms); }
+.js .hero-copy.is-visible .word > span { transform: none; }
+.js .hero-copy.reveal { opacity: 1; transform: none; }
+.js .hero-copy > :not(h1) { opacity: 0; transform: translateY(10px); transition: opacity var(--dur-scene) var(--ease-out), transform var(--dur-scene) var(--ease-out); }
+.js .hero-copy.is-visible > :not(h1) { opacity: 1; transform: none; }
+.js .hero-copy.is-visible > .lede { transition-delay: 380ms; }
+.js .hero-copy.is-visible > .actions { transition-delay: 460ms; }
+
+/* Cortina nas fotos: abre de baixo para cima uma vez, com a foto assentando */
+.js .curtain .frame { clip-path: inset(100% 0 0 0); transition: clip-path 1000ms var(--ease-out); transition-delay: var(--stagger, 0ms); }
+.js .curtain.is-visible .frame { clip-path: inset(0 0 0 0); }
+.js .curtain .frame img { transform: scale(1.06); transition: transform 1600ms var(--ease-out), opacity var(--dur-ui) var(--ease-out); }
+.js .curtain.is-visible .frame img { transform: none; }
+.js .curtain.reveal { opacity: 1; transform: none; }
+
+/* Filetes que se desenham da esquerda para a direita */
+.draw { position: relative; border-top-color: transparent !important; }
+.draw::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -1px;
+  height: 1px;
+  background: var(--rule);
+  transform-origin: left center;
+}
+.js .draw::before { transform: scaleX(0); transition: transform 1100ms var(--ease-in-out) 120ms; }
+.js .draw.is-visible::before { transform: scaleX(1); }
+
+/* Parallax lento nas fotos largas, guiado pela rolagem (roda no compositor) */
+@supports (animation-timeline: view()) {
+  .parallax .frame img { height: 112%; }
+  .parallax img {
+    animation: drift linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+  @keyframes drift { from { transform: translateY(-8%); } to { transform: translateY(0%); } }
+}
+
+/* Botão: resposta ao toque, curta */
+.btn { transition: background-color .2s ease, transform 120ms var(--ease-out); }
+.btn:active { transform: scale(0.98); }
+
+/* Link de texto: o filete recolhe para a direita no hover (transform, só com mouse) */
+.text-link { position: relative; text-decoration: none; }
+.text-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 8px;
+  height: 1px;
+  background: currentColor;
+  transform-origin: right center;
+  transition: transform 280ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .text-link:hover::after { transform: scaleX(0.3); }
+}
+
+/* Estimativa: quando o valor muda, um respiro curto para registrar a mudança */
+.sum-total strong { transition: opacity var(--dur-fast) var(--ease-out), filter var(--dur-fast) var(--ease-out); }
+.sum-total strong.is-updating { opacity: .3; filter: blur(2px); }
 
 /* ---------- Tablet ---------- */
 
@@ -663,9 +754,9 @@ details p { max-width: 56ch; padding-bottom: 28px; }
     visibility: hidden;
     opacity: 0;
     transform: translateY(-8px);
-    transition: opacity .3s var(--ease), transform .3s var(--ease), visibility 0s linear .3s;
+    transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out), visibility 0s linear 200ms;
   }
-  .main-nav.is-open { visibility: visible; opacity: 1; transform: none; transition: opacity .3s var(--ease), transform .3s var(--ease); }
+  .main-nav.is-open { visibility: visible; opacity: 1; transform: none; transition: opacity var(--dur-drawer) var(--ease-drawer), transform var(--dur-drawer) var(--ease-drawer); }
   .main-nav ul { flex-direction: column; gap: 0; }
   .main-nav ul a { display: block; padding: 14px 0; border-bottom: 1px solid var(--rule-soft); font-family: var(--serif); font-size: 1.625rem; }
   .nav-plan { align-self: flex-start; margin-top: 24px; }
@@ -743,7 +834,7 @@ details p { max-width: 56ch; padding-bottom: 28px; }
     text-decoration: none;
     box-shadow: 0 18px 48px rgba(23, 19, 15, .12);
     transform: translateY(calc(100% + 24px));
-    transition: transform .5s var(--ease);
+    transition: transform var(--dur-drawer) var(--ease-drawer);
   }
   .mobile-bar span:last-child { font-family: var(--serif); font-style: italic; font-size: 1rem; letter-spacing: 0; text-transform: none; opacity: .7; }
   .mobile-bar.is-visible { transform: none; }
@@ -756,8 +847,22 @@ details p { max-width: 56ch; padding-bottom: 28px; }
   .tab-name { font-size: 1.1875rem; }
 }
 
+/* Movimento reduzido: tira deslocamentos e mantém só fades curtos */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
-  .js .reveal { opacity: 1; transform: none; }
+  .js .reveal { transform: none; transition: opacity var(--dur-ui) ease; transition-delay: 0ms; }
+  .js .hero-media .frame { clip-path: none; transition: none; }
+  .js .hero-media .frame img { transform: none; }
+  .main-nav, .main-nav.is-open, .mobile-bar { transform: none !important; }
+  .mobile-bar { opacity: 0; transition: opacity var(--dur-ui) ease; }
+  .mobile-bar:not(.is-visible) { pointer-events: none; }
+  .mobile-bar.is-visible { opacity: 1; }
+  .js .word > span, .js .curtain .frame, .js .curtain .frame img { transform: none; clip-path: none; transition: none; }
+  .js .draw::before { transform: none; transition: none; }
+  .js .hero-copy > :not(h1) { transform: none; transition: opacity var(--dur-ui) ease; transition-delay: 0ms !important; }
+  .text-link::after { transition: none; }
+  .parallax img { animation: none !important; }
+  .btn:active { transform: none; }
+  summary::after { transition: none; }
+  details::details-content { transition: none; }
 }

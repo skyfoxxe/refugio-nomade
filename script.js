@@ -3,7 +3,8 @@
   'use strict';
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const SWAP_MS = reducedMotion ? 0 : 260;
+  const SWAP_MS = reducedMotion ? 0 : 160;           // igual a --dur-fast
+  const EASE_OUT = 'cubic-bezier(0.23, 1, 0.32, 1)';  // igual a --ease-out
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
@@ -51,10 +52,45 @@
 
   const markBroken = (el) => el.closest('.frame')?.classList.add('is-broken');
   $$('.frame img').forEach((el) => {
+    if (el.complete && el.naturalWidth > 0) el.classList.add('is-loaded');
     if (el.complete && el.naturalWidth === 0 && el.loading !== 'lazy') markBroken(el);
-    el.addEventListener('error', () => markBroken(el));
-    el.addEventListener('load', () => el.closest('.frame')?.classList.remove('is-broken'));
+    el.addEventListener('error', () => { el.classList.add('is-loaded'); markBroken(el); });
+    el.addEventListener('load', () => {
+      el.classList.add('is-loaded');            // fotos preguiçosas entram com fade, sem "pular"
+      el.closest('.frame')?.classList.remove('is-broken');
+    });
   });
+
+  /* Título do hero em palavras mascaradas (o texto continua inteiro para leitores de tela) */
+  const h1 = $('.hero h1');
+  if (h1) {
+    let i = 0;
+    const label = h1.textContent.replace(/\s+/g, ' ').trim();
+    const wrap = (node) => {
+      [...node.childNodes].forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.append(' '); return; }
+            const outer = document.createElement('span');
+            outer.className = 'word';
+            const inner = document.createElement('span');
+            inner.style.setProperty('--i', i++);
+            inner.textContent = part;
+            outer.append(inner);
+            frag.append(outer);
+          });
+          child.replaceWith(frag);
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          wrap(child);
+        }
+      });
+    };
+    wrap(h1);
+    h1.setAttribute('aria-label', label);
+    $$('.word', h1).forEach((w) => w.setAttribute('aria-hidden', 'true'));
+  }
 
   // Troca com fade curto, depois que a nova imagem carregou; a última escolha vence.
   const swapImage = (el, id, alt) => {
@@ -77,23 +113,33 @@
   /* ---------- II. Cabins em abas ---------- */
 
   const tabs = $$('.cabin-tab');
-  const selectTab = (tab, focus = false) => {
+  // Pelo teclado a troca é instantânea; no clique, um fade curto evita o "salto" de foto.
+  const selectTab = (tab, { focus = false, animate = false } = {}) => {
+    if (tab.getAttribute('aria-selected') === 'true') { if (focus) tab.focus(); return; }
     tabs.forEach((t) => {
       const on = t === tab;
       t.setAttribute('aria-selected', String(on));
       t.tabIndex = on ? 0 : -1;
       const panel = document.getElementById(t.getAttribute('aria-controls'));
-      if (panel) panel.hidden = !on;
+      if (!panel) return;
+      panel.getAnimations().forEach((a) => a.cancel());
+      panel.hidden = !on;
+      if (on && animate && panel.animate) {
+        const frames = reducedMotion
+          ? [{ opacity: 0 }, { opacity: 1 }]
+          : [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }];
+        panel.animate(frames, { duration: 220, easing: EASE_OUT });
+      }
     });
     if (focus) tab.focus();
   };
   tabs.forEach((tab, i) => {
-    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('click', (e) => selectTab(tab, { animate: e.detail > 0 }));
     tab.addEventListener('keydown', (e) => {
       const keys = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: tabs.length - 1 };
       if (!(e.key in keys)) return;
       e.preventDefault();
-      selectTab(tabs[(keys[e.key] + tabs.length) % tabs.length], true);
+      selectTab(tabs[(keys[e.key] + tabs.length) % tabs.length], { focus: true });
     });
   });
 
@@ -230,7 +276,12 @@
       out.nights.textContent = valid ? String(s.nights) : '—';
       out.extras.textContent = s.extras.length ? s.extras.map((x) => x.value).join(', ') : 'Nenhum';
       const extrasTotal = s.extras.reduce((sum, x) => sum + Number(x.dataset.price), 0);
-      out.total.textContent = valid ? brl.format(s.nights * Number(s.cabin.dataset.rate) + extrasTotal) : '—';
+      const total = valid ? brl.format(s.nights * Number(s.cabin.dataset.rate) + extrasTotal) : '—';
+      if (out.total.textContent !== total) {
+        out.total.classList.add('is-updating');
+        setTimeout(() => { out.total.textContent = total; out.total.classList.remove('is-updating'); }, SWAP_MS);
+        out.total.dataset.value = total;
+      }
       return { ...s, valid, extrasTotal };
     };
 
@@ -261,7 +312,7 @@
         `Cabin ${s.cabin.value}`,
         `Chegada ${s.a.toLocaleDateString('pt-BR')} e saída ${s.b.toLocaleDateString('pt-BR')} (${s.nights} noites)`,
         s.extras.length ? `Preparos: ${s.extras.map((x) => x.value).join(', ')}` : 'Sem preparos extras',
-        `Estimativa do site: ${out.total.textContent}`,
+        `Estimativa do site: ${out.total.dataset.value || out.total.textContent}`,
         'Podem confirmar a disponibilidade e os valores?'
       ];
       window.open(waLink(lines.join('\n')), '_blank', 'noopener');
@@ -280,15 +331,20 @@
 
   /* ---------- Entrada discreta ---------- */
 
+  // Blocos que entram juntos chegam em cascata de 60 ms (no máximo 240 ms).
   const reveals = $$('.reveal');
-  if (reducedMotion || !('IntersectionObserver' in window)) {
+  if (!('IntersectionObserver' in window)) {
     reveals.forEach((n) => n.classList.add('is-visible'));
   } else {
-    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
-      if (!en.isIntersecting) return;
-      en.target.classList.add('is-visible');
-      io.unobserve(en.target);
-    }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    const io = new IntersectionObserver((entries) => {
+      const shown = entries.filter((en) => en.isIntersecting).map((en) => en.target);
+      shown.sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+      shown.forEach((el, i) => {
+        if (!reducedMotion) el.style.setProperty('--stagger', `${Math.min(i * 60, 240)}ms`);
+        el.classList.add('is-visible');
+        io.unobserve(el);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach((n) => io.observe(n));
   }
 
