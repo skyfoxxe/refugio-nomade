@@ -2,402 +2,473 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Refúgio Nômade — cabins A-frame em Chapada dos Guimarães</title>
-  <meta name="description" content="Quatro cabins A-frame entre o cerrado e a mata, a uma hora de Cuiabá. Café servido no chalé, banheira sob as árvores e tempo de sobra. Projeto conceitual de portfólio.">
-  <meta name="theme-color" content="#F6F1E9">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Refúgio Nômade — cabanas para dois na Chapada dos Guimarães</title>
+  <meta name="description" content="Quatro cabanas para casais em 22 hectares de cerrado, a uma hora de Cuiabá. Café servido na porta, banheira sob as árvores e no máximo oito hóspedes no terreno. Projeto conceitual de portfólio.">
+  <meta name="theme-color" content="#F7F2EA">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="https://refugionomadeeight.vercel.app/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Refúgio Nômade">
-  <meta property="og:title" content="Refúgio Nômade — cabins A-frame em Chapada dos Guimarães">
-  <meta property="og:description" content="Quatro cabins, nenhuma pressa. Projeto conceitual de hospedagem em Chapada dos Guimarães — MT.">
+  <meta property="og:title" content="Refúgio Nômade — cabanas para dois na Chapada dos Guimarães">
+  <meta property="og:description" content="Quatro cabanas, oito hóspedes no máximo e o cerrado inteiro entre elas.">
   <meta property="og:url" content="https://refugionomadeeight.vercel.app/">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&amp;fit=crop&amp;w=1200&amp;h=630&amp;q=72">
+  <meta property="og:image" content="https://refugionomadeeight.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
-    "name": "Refúgio Nômade — Cabins & Forest",
+    "name": "Refúgio Nômade",
     "description": "Projeto conceitual de portfólio para uma hospedagem fictícia em Chapada dos Guimarães, Mato Grosso.",
     "creator": {"@type": "Person", "name": "Matheus Moreira"},
-    "about": ["hospedagem em Chapada dos Guimarães", "cabins A-frame", "turismo de natureza"],
+    "about": ["hospedagem em Chapada dos Guimarães", "cabanas para casais", "turismo de natureza"],
     "url": "https://refugionomadeeight.vercel.app/"
   }
   </script>
-
-  <link rel="preconnect" href="https://images.unsplash.com">
+  <script>
+    /* Esconde a entrada do hero só quando JS e movimento estão ativos; motion.js revela.
+       Se o GSAP não carregar, a página aparece completa depois de 2,4 s. */
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+        d.classList.add('is-intro');
+        setTimeout(function () { d.classList.remove('is-intro'); }, 2400);
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet">
-  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&amp;family=Manrope:wght@400;500&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lenis.min.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="motion.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="#topo" aria-label="Refúgio Nômade, voltar ao início">
+  <header class="site-header" id="topo">
+    <div class="wrap header-row">
+      <a class="brand" href="#conteudo" aria-label="Refúgio Nômade, início">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M16 5 27 26H5Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+          <path d="M2 26h28" stroke="currentColor" stroke-width="1.4"/>
+          <path class="brand-door" d="M16 18v8" stroke-width="1.6"/>
+        </svg>
         <span class="brand-name">Refúgio Nômade</span>
-        <span class="brand-sub">Cabins &amp; Forest · Chapada dos Guimarães</span>
       </a>
-
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
-
-      <nav class="main-nav" id="main-nav" aria-label="Principal">
-        <ul>
-          <li><a href="#cabins">Cabins</a></li>
+      <nav class="site-nav" id="site-nav" aria-label="Principal">
+        <ul class="nav-list">
           <li><a href="#dia">Um dia</a></li>
-          <li><a href="#lugar">O lugar</a></li>
+          <li><a href="#cabanas">Cabanas</a></li>
+          <li><a href="#incluido">Incluído</a></li>
           <li><a href="#perguntas">Perguntas</a></li>
+          <li><a class="nav-cta" href="#reservar">Reservar</a></li>
         </ul>
-        <a class="nav-plan" href="#planejar">Planejar estadia</a>
       </nav>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-label">Menu</span>
+        <span class="menu-lines" aria-hidden="true"></span>
+      </button>
     </div>
+    <span class="scroll-progress" aria-hidden="true"></span>
   </header>
 
   <main id="conteudo">
-
-    <!-- Hero -->
-    <section class="hero" id="topo" aria-labelledby="hero-title">
+    <section class="hero" aria-labelledby="hero-title">
       <div class="wrap hero-grid">
-        <div class="hero-copy reveal">
-          <p class="label">Chapada dos Guimarães · Mato Grosso</p>
-          <h1 id="hero-title">Alguns lugares servem para fazer <em>menos</em>.</h1>
-          <p class="lede">Quatro cabins A-frame entre o cerrado e a mata, a uma hora de Cuiabá. Café servido no chalé, banheira sob as árvores e tempo de sobra.</p>
-          <div class="actions">
-            <a class="btn" href="#planejar">Planejar estadia</a>
-            <a class="text-link" href="#cabins">Conhecer as cabins</a>
+        <div class="hero-copy">
+          <p class="label" data-intro>Chapada dos Guimarães · Mato Grosso</p>
+          <h1 id="hero-title" class="display">
+            <span class="line"><span class="line-inner">Quatro cabanas na</span></span>
+            <span class="line"><span class="line-inner">Chapada para quem</span></span>
+            <span class="line"><span class="line-inner">quer <em>desacelerar.</em></span></span>
+          </h1>
+          <p class="lede" data-intro>Para casais, a uma hora de Cuiabá. Café servido na porta, banheira sob as árvores e no máximo oito hóspedes em 22 hectares de cerrado.</p>
+          <div class="hero-actions" data-intro>
+            <a class="btn" href="#reservar"><span>Reservar minha estadia</span></a>
+            <a class="text-link" href="#cabanas">Conhecer as cabanas</a>
           </div>
         </div>
-
-        <figure class="hero-media reveal">
-          <div class="frame frame-tall"><img src="https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&amp;fit=crop&amp;w=1280&amp;q=72" srcset="https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&amp;fit=crop&amp;w=640&amp;q=72 640w, https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&amp;fit=crop&amp;w=960&amp;q=72 960w, https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&amp;fit=crop&amp;w=1280&amp;q=72 1280w, https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&amp;fit=crop&amp;w=1800&amp;q=72 1800w" sizes="(max-width: 860px) 100vw, 44vw" alt="Cabin A-frame iluminada ao anoitecer, entre árvores altas" fetchpriority="high" decoding="async"></div>
-          <figcaption><span>Cabin Lua</span>, às 19h18</figcaption>
+        <figure class="hero-figure frame" data-unveil-hero>
+          <img src="https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&amp;fit=crop&amp;w=1280&amp;h=1600&amp;q=72" srcset="https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&amp;fit=crop&amp;w=640&amp;h=800&amp;q=72 640w, https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&amp;fit=crop&amp;w=960&amp;h=1200&amp;q=72 960w, https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&amp;fit=crop&amp;w=1280&amp;h=1600&amp;q=72 1280w, https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&amp;fit=crop&amp;w=1800&amp;h=2250&amp;q=72 1800w" sizes="(min-width: 1100px) 42vw, (min-width: 768px) 50vw, 100vw" width="1200" height="1500" alt="Cabana A-frame iluminada ao anoitecer, entre árvores altas do cerrado" decoding="async" fetchpriority="high">
+          <span class="veil" aria-hidden="true"></span>
         </figure>
       </div>
 
       <div class="wrap">
-        <dl class="facts reveal draw">
-          <div><dt>Cabins</dt><dd>Quatro, distantes entre si</dd></div>
-          <div><dt>Hóspedes</dt><dd>Até dois por cabin</dd></div>
-          <div><dt>Manhã</dt><dd>Café servido na porta</dd></div>
-          <div><dt>Cuiabá</dt><dd>Cerca de uma hora</dd></div>
+        <dl class="proof" aria-label="A hospedagem em números">
+          <div class="proof-item">
+            <dt>Cabanas no terreno</dt>
+            <dd><span data-count="4">4</span></dd>
+          </div>
+          <div class="proof-item">
+            <dt>Hóspedes, no máximo</dt>
+            <dd><span data-count="8">8</span></dd>
+          </div>
+          <div class="proof-item">
+            <dt>Metros entre uma cabana e outra</dt>
+            <dd><span data-count="300">300</span></dd>
+          </div>
+          <div class="proof-item">
+            <dt>Minutos de Cuiabá</dt>
+            <dd><span data-count="60">60</span></dd>
+          </div>
         </dl>
+        <p class="proof-source">Distâncias medidas a partir do portão. Hospedagem fictícia, criada para portfólio.</p>
       </div>
     </section>
 
-    <!-- I. Manifesto -->
-    <section class="section manifesto" aria-labelledby="manifesto-title">
-      <div class="wrap manifesto-grid">
-        <p class="label"><span class="num">I</span> A ideia</p>
-        <div class="manifesto-copy reveal">
-          <h2 id="manifesto-title">O luxo aqui não é excesso. É espaço, silêncio e <em>tempo</em>.</h2>
-          <p>Não há recepção movimentada, piscina coletiva ou programação. Há quatro cabins posicionadas para que você não veja a vizinha, um café que chega sem você pedir duas vezes e uma mata que escurece devagar.</p>
+    <section class="scene pause" aria-labelledby="pause-title">
+      <div class="wrap pause-grid">
+        <div class="pause-main">
+          <p class="kicker" data-reveal>01 · A pausa</p>
+          <h2 id="pause-title" class="title" data-reveal>A semana pede muito. Aqui, o dia pede <em>pouco.</em></h2>
+          <p class="body-copy" data-reveal>Ninguém bate à porta antes da hora combinada. O café chega quando você pede, a trilha começa quando você calça a bota e a noite termina quando a lenha acaba.</p>
         </div>
+        <span class="v-rule" aria-hidden="true" data-draw-v></span>
+        <ul class="index-list" data-reveal>
+          <li>Sem relógio na parede</li>
+          <li>Sem vizinho de porta</li>
+          <li>Sem roteiro obrigatório</li>
+          <li>Sem check-out antes do meio-dia</li>
+        </ul>
       </div>
     </section>
 
-    <!-- II. Cabins -->
-    <section class="section panel cabins" id="cabins" aria-labelledby="cabins-title">
+    <section class="scene day" id="dia" aria-labelledby="day-title">
+      <div class="day-pin">
+      <div class="wrap day-head">
+        <div>
+          <p class="kicker" data-reveal>02 · Um dia</p>
+          <h2 id="day-title" class="title" data-reveal>Da primeira luz à última <em>brasa.</em></h2>
+        </div>
+        <p class="day-clock" aria-hidden="true"><span class="day-clock-time" id="day-clock">06:40</span></p>
+      </div>
+      <div class="day-viewport" id="day-viewport" tabindex="0" role="region" aria-label="Um dia no Refúgio, em seis momentos">
+        <ol class="day-track" id="day-track">
+          <li class="moment" data-time="06:40">
+            <figure class="moment-figure">
+              <img src="https://images.unsplash.com/photo-1529047033375-f402d3da24ca?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72" srcset="https://images.unsplash.com/photo-1529047033375-f402d3da24ca?auto=format&amp;fit=crop&amp;w=640&amp;h=782&amp;q=72 640w, https://images.unsplash.com/photo-1529047033375-f402d3da24ca?auto=format&amp;fit=crop&amp;w=960&amp;h=1173&amp;q=72 960w, https://images.unsplash.com/photo-1529047033375-f402d3da24ca?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72 1280w, https://images.unsplash.com/photo-1529047033375-f402d3da24ca?auto=format&amp;fit=crop&amp;w=1800&amp;h=2200&amp;q=72 1800w" sizes="(min-width: 768px) 34vw, 82vw" width="900" height="1100" alt="Luz da manhã desenhando a janela na parede, sobre a cama" decoding="async" loading="lazy">
+            </figure>
+            <p class="moment-time">06:40</p>
+            <p class="moment-copy">O sol entra pela fachada antes do despertador.</p>
+          </li>
+          <li class="moment" data-time="08:15">
+            <figure class="moment-figure">
+              <img src="https://images.unsplash.com/photo-1552841872-a0841f72a4ee?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72" srcset="https://images.unsplash.com/photo-1552841872-a0841f72a4ee?auto=format&amp;fit=crop&amp;w=640&amp;h=782&amp;q=72 640w, https://images.unsplash.com/photo-1552841872-a0841f72a4ee?auto=format&amp;fit=crop&amp;w=960&amp;h=1173&amp;q=72 960w, https://images.unsplash.com/photo-1552841872-a0841f72a4ee?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72 1280w, https://images.unsplash.com/photo-1552841872-a0841f72a4ee?auto=format&amp;fit=crop&amp;w=1800&amp;h=2200&amp;q=72 1800w" sizes="(min-width: 768px) 34vw, 82vw" width="900" height="1100" alt="Bandeja de café da manhã com prensa francesa e frutas sobre lençóis" decoding="async" loading="lazy">
+            </figure>
+            <p class="moment-time">08:15</p>
+            <p class="moment-copy">Café coado, frutas e pão da região, deixados na porta.</p>
+          </li>
+          <li class="moment" data-time="10:30">
+            <figure class="moment-figure">
+              <img src="https://images.unsplash.com/photo-1559562591-6de6f7187f56?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72" srcset="https://images.unsplash.com/photo-1559562591-6de6f7187f56?auto=format&amp;fit=crop&amp;w=640&amp;h=782&amp;q=72 640w, https://images.unsplash.com/photo-1559562591-6de6f7187f56?auto=format&amp;fit=crop&amp;w=960&amp;h=1173&amp;q=72 960w, https://images.unsplash.com/photo-1559562591-6de6f7187f56?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72 1280w, https://images.unsplash.com/photo-1559562591-6de6f7187f56?auto=format&amp;fit=crop&amp;w=1800&amp;h=2200&amp;q=72 1800w" sizes="(min-width: 768px) 34vw, 82vw" width="900" height="1100" alt="Vale verde entre paredões de pedra, com uma estrada sinuosa ao fundo" decoding="async" loading="lazy">
+            </figure>
+            <p class="moment-time">10:30</p>
+            <p class="moment-copy">Os paredões do Parque Nacional ficam a vinte minutos.</p>
+          </li>
+          <li class="moment" data-time="17:40">
+            <figure class="moment-figure">
+              <img src="https://images.unsplash.com/photo-1604178449156-323f840ed736?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72" srcset="https://images.unsplash.com/photo-1604178449156-323f840ed736?auto=format&amp;fit=crop&amp;w=640&amp;h=782&amp;q=72 640w, https://images.unsplash.com/photo-1604178449156-323f840ed736?auto=format&amp;fit=crop&amp;w=960&amp;h=1173&amp;q=72 960w, https://images.unsplash.com/photo-1604178449156-323f840ed736?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72 1280w, https://images.unsplash.com/photo-1604178449156-323f840ed736?auto=format&amp;fit=crop&amp;w=1800&amp;h=2200&amp;q=72 1800w" sizes="(min-width: 768px) 34vw, 82vw" width="900" height="1100" alt="Duas cabanas A-frame na luz alaranjada do fim de tarde" decoding="async" loading="lazy">
+            </figure>
+            <p class="moment-time">17:40</p>
+            <p class="moment-copy">A tarde fica laranja e ninguém precisa dizer nada.</p>
+          </li>
+          <li class="moment" data-time="19:20">
+            <figure class="moment-figure">
+              <img src="https://images.unsplash.com/photo-1627911206549-6c41ed2524de?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72" srcset="https://images.unsplash.com/photo-1627911206549-6c41ed2524de?auto=format&amp;fit=crop&amp;w=640&amp;h=782&amp;q=72 640w, https://images.unsplash.com/photo-1627911206549-6c41ed2524de?auto=format&amp;fit=crop&amp;w=960&amp;h=1173&amp;q=72 960w, https://images.unsplash.com/photo-1627911206549-6c41ed2524de?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72 1280w, https://images.unsplash.com/photo-1627911206549-6c41ed2524de?auto=format&amp;fit=crop&amp;w=1800&amp;h=2200&amp;q=72 1800w" sizes="(min-width: 768px) 34vw, 82vw" width="900" height="1100" alt="Fogueira acesa no início da noite" decoding="async" loading="lazy">
+            </figure>
+            <p class="moment-time">19:20</p>
+            <p class="moment-copy">A lenha estava arrumada desde a tarde.</p>
+          </li>
+          <li class="moment" data-time="22:05">
+            <figure class="moment-figure">
+              <img src="https://images.unsplash.com/photo-1601919297600-8ffbfd160d2d?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72" srcset="https://images.unsplash.com/photo-1601919297600-8ffbfd160d2d?auto=format&amp;fit=crop&amp;w=640&amp;h=782&amp;q=72 640w, https://images.unsplash.com/photo-1601919297600-8ffbfd160d2d?auto=format&amp;fit=crop&amp;w=960&amp;h=1173&amp;q=72 960w, https://images.unsplash.com/photo-1601919297600-8ffbfd160d2d?auto=format&amp;fit=crop&amp;w=1280&amp;h=1564&amp;q=72 1280w, https://images.unsplash.com/photo-1601919297600-8ffbfd160d2d?auto=format&amp;fit=crop&amp;w=1800&amp;h=2200&amp;q=72 1800w" sizes="(min-width: 768px) 34vw, 82vw" width="900" height="1100" alt="Cabana A-frame iluminada por dentro, vista de baixo, à noite" decoding="async" loading="lazy">
+            </figure>
+            <p class="moment-time">22:05</p>
+            <p class="moment-copy">Nenhum compromisso amanhã cedo.</p>
+          </li>
+        </ol>
+      </div>
+      <div class="wrap day-foot">
+        <span class="day-progress" aria-hidden="true"><span class="day-progress-fill"></span></span>
+      </div>
+      </div>
+    </section>
+
+    <section class="scene cabins" id="cabanas" aria-labelledby="cabins-title">
       <div class="wrap">
-        <header class="section-head reveal">
-          <p class="label"><span class="num">II</span> As cabins</p>
-          <div>
-            <h2 id="cabins-title">Quatro cabins. Quatro maneiras de <em>ficar</em>.</h2>
-            <p>Todas para dois, com café da manhã, ar-condicionado e deck privativo. O que muda é o que cada uma enquadra.</p>
-          </div>
-        </header>
-
-        <div class="cabin-browser">
-          <div class="cabin-tabs reveal" role="tablist" aria-label="Cabins">
-            <button class="cabin-tab" role="tab" id="tab-orvalho" aria-controls="panel-orvalho" aria-selected="true" tabindex="0" data-cabin="Orvalho"><span class="tab-num">I</span><span class="tab-name">Orvalho</span><span class="tab-line">Para começar devagar</span></button>
-            <button class="cabin-tab" role="tab" id="tab-horizonte" aria-controls="panel-horizonte" aria-selected="false" tabindex="-1" data-cabin="Horizonte"><span class="tab-num">II</span><span class="tab-name">Horizonte</span><span class="tab-line">A vista faz parte do quarto</span></button>
-            <button class="cabin-tab" role="tab" id="tab-bruma" aria-controls="panel-bruma" aria-selected="false" tabindex="-1" data-cabin="Bruma"><span class="tab-num">III</span><span class="tab-name">Bruma</span><span class="tab-line">Mais reservada, mais lenta</span></button>
-            <button class="cabin-tab" role="tab" id="tab-lua" aria-controls="panel-lua" aria-selected="false" tabindex="-1" data-cabin="Lua"><span class="tab-num">IV</span><span class="tab-name">Lua</span><span class="tab-line">Quando a noite é o motivo</span></button>
-          </div>
-
-          <div class="cabin-panels reveal">
-            <article class="cabin-panel" role="tabpanel" id="panel-orvalho" aria-labelledby="tab-orvalho" tabindex="0">
-              <div class="frame frame-landscape"><img src="https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=1280&amp;q=72" srcset="https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=640&amp;q=72 640w, https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=960&amp;q=72 960w, https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=1280&amp;q=72 1280w, https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=1800&amp;q=72 1800w" sizes="(max-width: 860px) 100vw, 56vw" alt="Cabin Orvalho, chalé A-frame numa clareira com luz dourada da tarde" loading="lazy" decoding="async"></div>
-              <div class="cabin-detail">
-                <h3>Cabin Orvalho</h3>
-                <p>A mais leve das quatro. Uma clareira, um deck voltado para o nascente e o ritmo certo para quem chega com a semana ainda nos ombros.</p>
-                <dl class="specs">
-                  <div><dt>Cama</dt><dd>Queen</dd></div>
-                  <div><dt>Exterior</dt><dd>Deck ao nascente</dd></div>
-                  <div><dt>Ideal para</dt><dd>Primeira visita</dd></div>
-                  <div><dt>Diária de referência</dt><dd>R$ 890</dd></div>
-                </dl>
-                <a class="text-link" href="#planejar" data-plan="Orvalho">Planejar na Orvalho</a>
-              </div>
-            </article>
-
-            <article class="cabin-panel" role="tabpanel" id="panel-horizonte" aria-labelledby="tab-horizonte" tabindex="0" hidden>
-              <div class="frame frame-landscape"><img src="https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=1280&amp;q=72" srcset="https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=640&amp;q=72 640w, https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=960&amp;q=72 960w, https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=1280&amp;q=72 1280w, https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=1800&amp;q=72 1800w" sizes="(max-width: 860px) 100vw, 56vw" alt="Cabin Horizonte, A-frame escura com fachada inteira de vidro entre árvores" loading="lazy" decoding="async"></div>
-              <div class="cabin-detail">
-                <h3>Cabin Horizonte</h3>
-                <p>A fachada é toda de vidro. Você abre os olhos e encontra a paisagem antes de encontrar qualquer compromisso.</p>
-                <dl class="specs">
-                  <div><dt>Cama</dt><dd>King</dd></div>
-                  <div><dt>Exterior</dt><dd>Deck panorâmico</dd></div>
-                  <div><dt>Ideal para</dt><dd>Luz e vista</dd></div>
-                  <div><dt>Diária de referência</dt><dd>R$ 1.090</dd></div>
-                </dl>
-                <a class="text-link" href="#planejar" data-plan="Horizonte">Planejar na Horizonte</a>
-              </div>
-            </article>
-
-            <article class="cabin-panel" role="tabpanel" id="panel-bruma" aria-labelledby="tab-bruma" tabindex="0" hidden>
-              <div class="frame frame-landscape"><img src="https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=1280&amp;q=72" srcset="https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=640&amp;q=72 640w, https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=960&amp;q=72 960w, https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=1280&amp;q=72 1280w, https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=1800&amp;q=72 1800w" sizes="(max-width: 860px) 100vw, 56vw" alt="Cabin Bruma, pequena A-frame escura cercada pela mata" loading="lazy" decoding="async"></div>
-              <div class="cabin-detail">
-                <h3>Cabin Bruma</h3>
-                <p>A mais afastada. Cercada pela mata, com banheira externa, feita para quem pretende passar a estadia inteira sem sair dali.</p>
-                <dl class="specs">
-                  <div><dt>Cama</dt><dd>King</dd></div>
-                  <div><dt>Banho</dt><dd>Banheira externa</dd></div>
-                  <div><dt>Ideal para</dt><dd>Desaparecer</dd></div>
-                  <div><dt>Diária de referência</dt><dd>R$ 1.240</dd></div>
-                </dl>
-                <a class="text-link" href="#planejar" data-plan="Bruma">Planejar na Bruma</a>
-              </div>
-            </article>
-
-            <article class="cabin-panel" role="tabpanel" id="panel-lua" aria-labelledby="tab-lua" tabindex="0" hidden>
-              <div class="frame frame-landscape"><img src="https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=1280&amp;q=72" srcset="https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=640&amp;q=72 640w, https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=960&amp;q=72 960w, https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=1280&amp;q=72 1280w, https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=1800&amp;q=72 1800w" sizes="(max-width: 860px) 100vw, 56vw" alt="Interior da Cabin Lua, com lareira acesa e luz baixa" loading="lazy" decoding="async"></div>
-              <div class="cabin-detail">
-                <h3>Cabin Lua</h3>
-                <p>A maior e a mais reservada para ocasiões. Banheira de imersão, luz baixa e detalhes preparados antes da sua chegada.</p>
-                <dl class="specs">
-                  <div><dt>Cama</dt><dd>King</dd></div>
-                  <div><dt>Banho</dt><dd>Banheira de imersão</dd></div>
-                  <div><dt>Ideal para</dt><dd>Datas especiais</dd></div>
-                  <div><dt>Diária de referência</dt><dd>R$ 1.480</dd></div>
-                </dl>
-                <a class="text-link" href="#planejar" data-plan="Lua">Planejar na Lua</a>
-              </div>
-            </article>
-          </div>
+        <div class="section-head">
+          <p class="kicker" data-reveal>03 · As cabanas</p>
+          <h2 id="cabins-title" class="title" data-reveal>Quatro cabanas, cada uma com o seu <em>silêncio.</em></h2>
         </div>
-      </div>
-    </section>
-
-    <!-- III. Recomendador -->
-    <section class="section finder" id="pausa" aria-labelledby="finder-title">
-      <div class="wrap finder-grid">
-        <header class="finder-head reveal">
-          <p class="label"><span class="num">III</span> Na dúvida</p>
-          <h2 id="finder-title">Duas perguntas. Uma <em>cabin</em>.</h2>
-          <p>Responda pelo que você quer sentir, não pelo que acha que deveria fazer.</p>
-        </header>
-
-        <div class="finder-body reveal">
-          <fieldset>
-            <legend>O que você quer sentir primeiro?</legend>
-            <div class="options" data-group="vibe">
-              <button type="button" class="option" aria-pressed="true" data-value="isolamento">Isolamento</button>
-              <button type="button" class="option" aria-pressed="false" data-value="vista">Vista e luz</button>
-              <button type="button" class="option" aria-pressed="false" data-value="mata">Mata por perto</button>
-              <button type="button" class="option" aria-pressed="false" data-value="noite">Uma noite especial</button>
+        <div class="cabins-grid">
+          <div class="cabin-stage" aria-hidden="true">
+            <div class="cabin-stage-frame" data-active="ipe">
+              <img src="https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72" srcset="https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=640&amp;h=756&amp;q=72 640w, https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=960&amp;h=1135&amp;q=72 960w, https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72 1280w, https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=1800&amp;h=2127&amp;q=72 1800w" sizes="(min-width: 1100px) 44vw, 50vw" width="1100" height="1300" alt="" decoding="async" class="stage-img" data-cabin="ipe" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72" srcset="https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=640&amp;h=756&amp;q=72 640w, https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=960&amp;h=1135&amp;q=72 960w, https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72 1280w, https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=1800&amp;h=2127&amp;q=72 1800w" sizes="(min-width: 1100px) 44vw, 50vw" width="1100" height="1300" alt="" decoding="async" class="stage-img" data-cabin="mirante" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72" srcset="https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=640&amp;h=756&amp;q=72 640w, https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=960&amp;h=1135&amp;q=72 960w, https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72 1280w, https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=1800&amp;h=2127&amp;q=72 1800w" sizes="(min-width: 1100px) 44vw, 50vw" width="1100" height="1300" alt="" decoding="async" class="stage-img" data-cabin="buriti" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72" srcset="https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=640&amp;h=756&amp;q=72 640w, https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=960&amp;h=1135&amp;q=72 960w, https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72 1280w, https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=1800&amp;h=2127&amp;q=72 1800w" sizes="(min-width: 1100px) 44vw, 50vw" width="1100" height="1300" alt="" decoding="async" class="stage-img" data-cabin="vereda" loading="lazy">
+              <p class="stage-caption"><span id="stage-index">01</span> / 04</p>
             </div>
-          </fieldset>
-          <fieldset>
-            <legend>Com quem?</legend>
-            <div class="options" data-group="moment">
-              <button type="button" class="option" aria-pressed="true" data-value="dois">A dois</button>
-              <button type="button" class="option" aria-pressed="false" data-value="sozinho">Só comigo</button>
-              <button type="button" class="option" aria-pressed="false" data-value="celebrar">Para celebrar</button>
-            </div>
-          </fieldset>
-
-          <div class="verdict" aria-live="polite" aria-atomic="true">
-            <p class="label">Sua pausa combina com</p>
-            <p class="verdict-name" id="verdict-name">Cabin Bruma</p>
-            <p class="verdict-why" id="verdict-why">A mais afastada, com banheira externa. Para quem quer diminuir o ritmo sem abrir mão do conforto.</p>
-            <a class="text-link" id="verdict-cta" href="#planejar" data-plan="Bruma">Planejar na Bruma</a>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- IV. Um dia -->
-    <section class="section panel day" id="dia" aria-labelledby="day-title">
-      <div class="wrap">
-        <header class="section-head reveal">
-          <p class="label"><span class="num">IV</span> Um dia aqui</p>
-          <div>
-            <h2 id="day-title">Um dia pode ser <em>assim</em>.</h2>
-            <p>Nenhum horário é obrigatório. Escolha um momento.</p>
-          </div>
-        </header>
-
-        <div class="day-grid">
-          <ol class="day-list reveal draw">
-            <li><button type="button" class="day-step" aria-pressed="true" data-step="0"><span class="time">07:02</span><span class="moment">A luz atravessa o vidro antes de você.</span></button></li>
-            <li><button type="button" class="day-step" aria-pressed="false" data-step="1"><span class="time">08:15</span><span class="moment">O café chega à porta, sem fila de buffet.</span></button></li>
-            <li><button type="button" class="day-step" aria-pressed="false" data-step="2"><span class="time">10:48</span><span class="moment">Talvez uma trilha até o mirante. Talvez nada.</span></button></li>
-            <li><button type="button" class="day-step" aria-pressed="false" data-step="3"><span class="time">16:40</span><span class="moment">O ar muda. Boa hora para a banheira.</span></button></li>
-            <li><button type="button" class="day-step" aria-pressed="false" data-step="4"><span class="time">19:18</span><span class="moment">A fogueira já está pronta.</span></button></li>
-            <li><button type="button" class="day-step" aria-pressed="false" data-step="5"><span class="time">22:03</span><span class="moment">Nenhum compromisso amanhã cedo.</span></button></li>
-          </ol>
-
-          <figure class="day-stage reveal curtain">
-            <div class="frame frame-portrait"><img id="day-image" src="https://images.unsplash.com/photo-1529047033375-f402d3da24ca?auto=format&amp;fit=crop&amp;w=1280&amp;q=72" srcset="https://images.unsplash.com/photo-1529047033375-f402d3da24ca?auto=format&amp;fit=crop&amp;w=640&amp;q=72 640w, https://images.unsplash.com/photo-1529047033375-f402d3da24ca?auto=format&amp;fit=crop&amp;w=960&amp;q=72 960w, https://images.unsplash.com/photo-1529047033375-f402d3da24ca?auto=format&amp;fit=crop&amp;w=1280&amp;q=72 1280w, https://images.unsplash.com/photo-1529047033375-f402d3da24ca?auto=format&amp;fit=crop&amp;w=1800&amp;q=72 1800w" sizes="(max-width: 860px) 100vw, 40vw" alt="Luz da manhã desenhando a janela na parede, sobre a cama" loading="lazy" decoding="async"></div>
-            <figcaption aria-live="polite"><span class="time" id="day-time">07:02</span> <span id="day-copy">Você ainda não precisa levantar.</span></figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <!-- V. Preparos -->
-    <section class="section rituals" aria-labelledby="rituals-title">
-      <div class="wrap">
-        <header class="section-head reveal">
-          <p class="label"><span class="num">V</span> Antes de você chegar</p>
-          <div>
-            <h2 id="rituals-title">Algumas coisas ficam <em>prontas</em> antes.</h2>
-          </div>
-        </header>
-
-        <div class="rituals-grid">
-          <figure class="rituals-media reveal curtain">
-            <div class="frame frame-portrait"><img src="https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=1280&amp;q=72" srcset="https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=640&amp;q=72 640w, https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=960&amp;q=72 960w, https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=1280&amp;q=72 1280w, https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=1800&amp;q=72 1800w" sizes="(max-width: 860px) 100vw, 36vw" alt="Banheira escura sobre um deck de madeira com vista para morros ao amanhecer" loading="lazy" decoding="async"></div>
-          </figure>
-          <ol class="ledger reveal draw">
-            <li><span class="ledger-num">01</span><h3>Café da manhã no chalé</h3><p>Incluído. Entregue na porta, no horário que você combinar.</p></li>
-            <li><span class="ledger-num">02</span><h3>Fogueira preparada</h3><p>Lenha arrumada para o início da noite, quando o tempo permite.</p></li>
-            <li><span class="ledger-num">03</span><h3>Banho de imersão</h3><p>Sais, toalhas aquecidas e velas, nas cabins Bruma e Lua.</p></li>
-            <li><span class="ledger-num">04</span><h3>Cesta para dois</h3><p>Vinho, queijos da região e pequenos produtos locais.</p></li>
-            <li><span class="ledger-num">05</span><h3>Celebrações</h3><p>Aniversários, pedidos e surpresas, combinados com antecedência.</p></li>
+          <ol class="cabin-list">
+            <li class="cabin" id="cabana-ipe" data-cabin="ipe">
+              <figure class="cabin-figure frame">
+                <img src="https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72" srcset="https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=640&amp;h=756&amp;q=72 640w, https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=960&amp;h=1135&amp;q=72 960w, https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72 1280w, https://images.unsplash.com/photo-1542213598-8fbf6282334b?auto=format&amp;fit=crop&amp;w=1800&amp;h=2127&amp;q=72 1800w" sizes="100vw" width="1100" height="1300" alt="Cabana Ipê, A-frame numa clareira com luz dourada da tarde" decoding="async" loading="lazy">
+              </figure>
+              <p class="cabin-number">01</p>
+              <h3 class="cabin-name">Ipê</h3>
+              <p class="cabin-copy">A mais perto da trilha principal, com deck voltado para o nascente. Boa para a primeira visita.</p>
+              <dl class="specs">
+                <div><dt>Cama</dt><dd>Queen</dd></div>
+                <div><dt>Banho</dt><dd>Ducha de chuva</dd></div>
+                <div><dt>Diária</dt><dd>R$ 890</dd></div>
+              </dl>
+              <a class="text-link" href="#reservar" data-pick="ipe">Reservar a Ipê</a>
+            </li>
+            <li class="cabin" id="cabana-mirante" data-cabin="mirante">
+              <figure class="cabin-figure frame">
+                <img src="https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72" srcset="https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=640&amp;h=756&amp;q=72 640w, https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=960&amp;h=1135&amp;q=72 960w, https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72 1280w, https://images.unsplash.com/photo-1703782997454-8eb0d4d94e9c?auto=format&amp;fit=crop&amp;w=1800&amp;h=2127&amp;q=72 1800w" sizes="100vw" width="1100" height="1300" alt="Cabana Mirante, A-frame escura com a fachada inteira de vidro entre árvores" decoding="async" loading="lazy">
+              </figure>
+              <p class="cabin-number">02</p>
+              <h3 class="cabin-name">Mirante</h3>
+              <p class="cabin-copy">Fachada inteira de vidro, virada para o vale. Quem gosta de luz acorda aqui sem cortina.</p>
+              <dl class="specs">
+                <div><dt>Cama</dt><dd>King</dd></div>
+                <div><dt>Banho</dt><dd>Ducha dupla</dd></div>
+                <div><dt>Diária</dt><dd>R$ 1.090</dd></div>
+              </dl>
+              <a class="text-link" href="#reservar" data-pick="mirante">Reservar a Mirante</a>
+            </li>
+            <li class="cabin" id="cabana-buriti" data-cabin="buriti">
+              <figure class="cabin-figure frame">
+                <img src="https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72" srcset="https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=640&amp;h=756&amp;q=72 640w, https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=960&amp;h=1135&amp;q=72 960w, https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72 1280w, https://images.unsplash.com/photo-1697462248415-0ead58a3daba?auto=format&amp;fit=crop&amp;w=1800&amp;h=2127&amp;q=72 1800w" sizes="100vw" width="1100" height="1300" alt="Cabana Buriti, pequena A-frame escura cercada pela mata" decoding="async" loading="lazy">
+              </figure>
+              <p class="cabin-number">03</p>
+              <h3 class="cabin-name">Buriti</h3>
+              <p class="cabin-copy">A mais afastada, no fim do caminho de pedra. Banheira externa no deck, sob as copas.</p>
+              <dl class="specs">
+                <div><dt>Cama</dt><dd>King</dd></div>
+                <div><dt>Banho</dt><dd>Banheira externa</dd></div>
+                <div><dt>Diária</dt><dd>R$ 1.240</dd></div>
+              </dl>
+              <a class="text-link" href="#reservar" data-pick="buriti">Reservar a Buriti</a>
+            </li>
+            <li class="cabin" id="cabana-vereda" data-cabin="vereda">
+              <figure class="cabin-figure frame">
+                <img src="https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72" srcset="https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=640&amp;h=756&amp;q=72 640w, https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=960&amp;h=1135&amp;q=72 960w, https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=1280&amp;h=1513&amp;q=72 1280w, https://images.unsplash.com/photo-1698933787134-af2d451985c7?auto=format&amp;fit=crop&amp;w=1800&amp;h=2127&amp;q=72 1800w" sizes="100vw" width="1100" height="1300" alt="Interior da Cabana Vereda, com lareira acesa e luz baixa" decoding="async" loading="lazy">
+              </figure>
+              <p class="cabin-number">04</p>
+              <h3 class="cabin-name">Vereda</h3>
+              <p class="cabin-copy">Lareira, banheira de imersão e o pé-direito mais alto. A cabana das datas que pedem cuidado.</p>
+              <dl class="specs">
+                <div><dt>Cama</dt><dd>King</dd></div>
+                <div><dt>Banho</dt><dd>Banheira de imersão</dd></div>
+                <div><dt>Diária</dt><dd>R$ 1.480</dd></div>
+              </dl>
+              <a class="text-link" href="#reservar" data-pick="vereda">Reservar a Vereda</a>
+            </li>
           </ol>
         </div>
       </div>
     </section>
 
-    <!-- VI. O lugar -->
-    <section class="section place" id="lugar" aria-labelledby="place-title">
-      <figure class="wrap place-figure reveal curtain parallax">
-        <div class="frame frame-wide"><img src="https://images.unsplash.com/photo-1559562591-6de6f7187f56?auto=format&amp;fit=crop&amp;w=1280&amp;q=72" srcset="https://images.unsplash.com/photo-1559562591-6de6f7187f56?auto=format&amp;fit=crop&amp;w=640&amp;q=72 640w, https://images.unsplash.com/photo-1559562591-6de6f7187f56?auto=format&amp;fit=crop&amp;w=960&amp;q=72 960w, https://images.unsplash.com/photo-1559562591-6de6f7187f56?auto=format&amp;fit=crop&amp;w=1280&amp;q=72 1280w, https://images.unsplash.com/photo-1559562591-6de6f7187f56?auto=format&amp;fit=crop&amp;w=1800&amp;q=72 1800w" sizes="(max-width: 1320px) 100vw, 1320px" alt="Vale verde entre paredões de pedra, com uma estrada sinuosa ao fundo" loading="lazy" decoding="async"></div>
-      </figure>
-      <div class="wrap place-grid">
-        <div class="place-copy reveal">
-          <p class="label"><span class="num">VI</span> O lugar</p>
-          <h2 id="place-title">Poucos chalés. Mais espaço entre <em>eles</em>.</h2>
-          <p>O Refúgio fica nos arredores de Chapada dos Guimarães, entre paredões de arenito, cachoeiras e o cerrado. Ele foi pensado para permanecer pequeno: a distância entre as cabins faz parte da experiência.</p>
+    <section class="scene included" id="incluido" aria-labelledby="included-title">
+      <div class="wrap included-grid">
+        <div class="included-head">
+          <p class="kicker" data-reveal>04 · Na diária</p>
+          <h2 id="included-title" class="title" data-reveal>O essencial já vem junto. O resto fica a seu <em>critério.</em></h2>
+          <p class="body-copy" data-reveal>A diária é fechada para dois e não tem taxa de serviço escondida. Os pedidos à parte são cobrados uma vez por estadia, não por noite.</p>
         </div>
-        <dl class="place-index reveal">
-          <div><dt>Cuiabá</dt><dd>Cerca de 1h de carro</dd></div>
-          <div><dt>Aeroporto</dt><dd>Marechal Rondon, em Várzea Grande</dd></div>
-          <div><dt>Centro da Chapada</dt><dd>Alguns minutos de estrada</dd></div>
-          <div><dt>Parque Nacional</dt><dd>Mirantes e cachoeiras na região</dd></div>
-        </dl>
+        <div class="ledgers">
+          <div class="ledger">
+            <h3 class="ledger-title" data-reveal>Incluído em todas</h3>
+            <ul class="ledger-list" data-reveal>
+              <li><span>Café da manhã entregue na porta</span></li>
+              <li><span>Lenha separada para a fogueira</span></li>
+              <li><span>Roupa de cama de algodão egípcio</span></li>
+              <li><span>Ar-condicionado e Wi-Fi</span></li>
+              <li><span>Estacionamento junto à cabana</span></li>
+            </ul>
+          </div>
+          <div class="ledger">
+            <h3 class="ledger-title" data-reveal>Sob pedido, por estadia</h3>
+            <ul class="ledger-list" data-reveal>
+              <li><span>Cesta para a trilha</span><span class="price">R$ 140</span></li>
+              <li><span>Banho de ervas na banheira</span><span class="price">R$ 160</span></li>
+              <li><span>Guia para as cachoeiras</span><span class="price">R$ 220</span></li>
+              <li><span>Jantar à beira da fogueira</span><span class="price">R$ 320</span></li>
+            </ul>
+            <p class="ledger-note" data-reveal>O banho de ervas existe só na Buriti e na Vereda, que têm banheira. Pedidos com 48 horas de antecedência.</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- VII. Planejar -->
-    <section class="section panel planner" id="planejar" aria-labelledby="plan-title">
+    <section class="scene plan" id="reservar" aria-labelledby="plan-title">
       <div class="wrap">
-        <header class="section-head planner-head reveal">
-          <p class="label"><span class="num">VII</span> Planejar estadia</p>
+        <div class="plan-head">
           <div>
-            <h2 id="plan-title">Monte sua estadia. A gente <em>confirma</em>.</h2>
-            <p>Escolha cabin, datas e preparos. O resumo vira uma mensagem pronta no WhatsApp, e a disponibilidade é confirmada por uma pessoa, não por um robô.</p>
+            <p class="kicker" data-reveal>05 · Reserva</p>
+            <h2 id="plan-title" class="title" data-reveal>Monte a estadia. A confirmação chega pelo <em>WhatsApp.</em></h2>
           </div>
-        </header>
+          <ol class="how" data-reveal aria-label="Como funciona a reserva">
+            <li><span class="how-n">1</span>Você envia o resumo daqui.</li>
+            <li><span class="how-n">2</span>Confirmamos a data e mandamos o link do sinal de 30%.</li>
+            <li><span class="how-n">3</span>Na véspera, chegam a localização e o horário do café.</li>
+          </ol>
+        </div>
 
-        <form class="plan-form reveal" id="plan-form" novalidate>
-          <fieldset class="plan-cabins">
-            <legend>Cabin</legend>
-            <div class="plan-cabin-list">
-              <label class="plan-cabin"><input type="radio" name="cabin" value="Orvalho" data-rate="890"><span class="pc-name">Orvalho</span><span class="pc-rate">R$ 890</span></label>
-              <label class="plan-cabin"><input type="radio" name="cabin" value="Horizonte" data-rate="1090"><span class="pc-name">Horizonte</span><span class="pc-rate">R$ 1.090</span></label>
-              <label class="plan-cabin"><input type="radio" name="cabin" value="Bruma" data-rate="1240" checked><span class="pc-name">Bruma</span><span class="pc-rate">R$ 1.240</span></label>
-              <label class="plan-cabin"><input type="radio" name="cabin" value="Lua" data-rate="1480"><span class="pc-name">Lua</span><span class="pc-rate">R$ 1.480</span></label>
-            </div>
-            <p class="hint">Diárias de referência para dois, com café da manhã.</p>
-          </fieldset>
+        <form class="planner" id="planner" novalidate>
+          <div class="planner-steps">
+            <fieldset class="step" data-reveal>
+              <legend class="step-legend"><span class="step-n">I</span>Datas</legend>
+              <div class="field-row">
+                <div class="field">
+                  <label for="checkin">Chegada</label>
+                  <input type="date" id="checkin" name="checkin" aria-describedby="date-help date-error" required>
+                </div>
+                <div class="field">
+                  <label for="checkout">Saída</label>
+                  <input type="date" id="checkout" name="checkout" aria-describedby="date-help date-error" required>
+                </div>
+                <div class="field">
+                  <label for="guests">Hóspedes</label>
+                  <select id="guests" name="guests">
+                    <option value="2">Dois</option>
+                    <option value="1">Um</option>
+                  </select>
+                </div>
+              </div>
+              <p class="help" id="date-help">Mínimo de duas noites. Entrada às 15h, saída às 12h.</p>
+              <p class="error" id="date-error" role="alert"></p>
+            </fieldset>
 
-          <fieldset class="plan-dates">
-            <legend>Datas</legend>
-            <div class="date-row">
-              <label class="field"><span>Chegada</span><input type="date" name="checkin" id="checkin" required aria-describedby="date-hint date-error"></label>
-              <label class="field"><span>Saída</span><input type="date" name="checkout" id="checkout" required aria-describedby="date-hint date-error"></label>
-            </div>
-            <p class="hint" id="date-hint">Mínimo de duas noites. Entrada às 15h, saída às 12h.</p>
-            <p class="error" id="date-error" role="alert"></p>
-          </fieldset>
+            <fieldset class="step" data-reveal>
+              <legend class="step-legend"><span class="step-n">II</span>Cabana</legend>
+              <p class="help" id="rate-help">Para dois, com café da manhã. <span id="rate-basis">Valores por noite. Escolha as datas para ver o total.</span></p>
+              <div class="rates" role="radiogroup" aria-describedby="rate-help">
+                <label class="rate">
+                  <input type="radio" name="cabin" value="ipe">
+                  <span class="rate-name">Ipê</span>
+                  <span class="rate-detail">Deck ao nascente</span>
+                  <span class="rate-price" data-rate="890">R$ 890</span>
+                </label>
+                <label class="rate">
+                  <input type="radio" name="cabin" value="mirante">
+                  <span class="rate-name">Mirante</span>
+                  <span class="rate-detail">Fachada de vidro</span>
+                  <span class="rate-price" data-rate="1090">R$ 1.090</span>
+                </label>
+                <label class="rate rate-featured">
+                  <input type="radio" name="cabin" value="buriti" checked>
+                  <span class="rate-name">Buriti <span class="rate-flag">A mais pedida</span></span>
+                  <span class="rate-detail">Banheira externa</span>
+                  <span class="rate-price" data-rate="1240">R$ 1.240</span>
+                </label>
+                <label class="rate">
+                  <input type="radio" name="cabin" value="vereda">
+                  <span class="rate-name">Vereda</span>
+                  <span class="rate-detail">Lareira e imersão</span>
+                  <span class="rate-price" data-rate="1480">R$ 1.480</span>
+                </label>
+              </div>
+            </fieldset>
 
-          <fieldset class="plan-extras">
-            <legend>Preparos <span class="legend-note">opcionais</span></legend>
-            <label class="check"><input type="checkbox" name="extra" value="Fogueira preparada" data-price="120"><span>Fogueira preparada</span><span class="price">R$ 120</span></label>
-            <label class="check" data-only="Bruma Lua"><input type="checkbox" name="extra" value="Banho de imersão" data-price="160"><span>Banho de imersão</span><span class="price">R$ 160</span></label>
-            <label class="check"><input type="checkbox" name="extra" value="Cesta para dois" data-price="290"><span>Cesta para dois</span><span class="price">R$ 290</span></label>
-            <label class="check"><input type="checkbox" name="extra" value="Celebração" data-price="0"><span>Celebração</span><span class="price">Sob consulta</span></label>
-          </fieldset>
+            <fieldset class="step" data-reveal>
+              <legend class="step-legend"><span class="step-n">III</span>Pedidos</legend>
+              <div class="extras">
+                <label class="extra"><input type="checkbox" name="extra" value="cesta" data-price="140"><span class="extra-name">Cesta para a trilha</span><span class="price">R$ 140</span></label>
+                <label class="extra"><input type="checkbox" name="extra" value="ervas" data-price="160" data-needs="buriti vereda" aria-describedby="ervas-help"><span class="extra-name">Banho de ervas</span><span class="price">R$ 160</span></label>
+                <label class="extra"><input type="checkbox" name="extra" value="guia" data-price="220"><span class="extra-name">Guia para as cachoeiras</span><span class="price">R$ 220</span></label>
+                <label class="extra"><input type="checkbox" name="extra" value="jantar" data-price="320"><span class="extra-name">Jantar à beira da fogueira</span><span class="price">R$ 320</span></label>
+              </div>
+              <p class="help" id="ervas-help">O banho de ervas só aparece na Buriti e na Vereda.</p>
+              <div class="field">
+                <label for="guest-name">Seu nome <span class="optional">(opcional)</span></label>
+                <input type="text" id="guest-name" name="name" autocomplete="name">
+              </div>
+            </fieldset>
+          </div>
 
-          <aside class="plan-summary" aria-live="polite">
-            <p class="label">Resumo</p>
-            <dl>
-              <div><dt>Cabin</dt><dd id="sum-cabin">Bruma</dd></div>
-              <div><dt>Datas</dt><dd id="sum-dates">Escolha as datas</dd></div>
+          <aside class="summary" aria-labelledby="summary-title">
+            <h3 class="summary-title" id="summary-title">Sua estadia</h3>
+            <dl class="summary-list">
+              <div><dt>Cabana</dt><dd id="sum-cabin">Buriti</dd></div>
+              <div><dt>Datas</dt><dd id="sum-dates">A escolher</dd></div>
               <div><dt>Noites</dt><dd id="sum-nights">—</dd></div>
-              <div><dt>Preparos</dt><dd id="sum-extras">Nenhum</dd></div>
+              <div><dt>Pedidos</dt><dd id="sum-extras">Nenhum</dd></div>
             </dl>
-            <p class="sum-total"><span>Estimativa</span><strong id="sum-total">—</strong></p>
-            <button class="btn btn-block" type="submit">Enviar pelo WhatsApp</button>
-            <p class="hint">Estimativa sem compromisso. Valores e disponibilidade são confirmados na conversa.</p>
+            <p class="summary-total">
+              <span class="label">Estimativa</span>
+              <strong id="sum-total" aria-live="polite">—</strong>
+            </p>
+            <p class="summary-deposit" id="sum-deposit">Sinal de 30% só depois da confirmação.</p>
+            <button class="btn btn-block" type="submit"><span>Reservar minha estadia</span></button>
+            <p class="summary-note">Nada é cobrado agora. Respondemos em até duas horas, das 8h às 20h.</p>
           </aside>
         </form>
       </div>
     </section>
 
-    <!-- VIII. Perguntas -->
-    <section class="section faq" id="perguntas" aria-labelledby="faq-title">
+    <section class="scene faq" id="perguntas" aria-labelledby="faq-title">
       <div class="wrap faq-grid">
-        <header class="faq-head reveal">
-          <p class="label"><span class="num">VIII</span> Perguntas</p>
-          <h2 id="faq-title">Antes de <em>reservar</em>.</h2>
-        </header>
-        <div class="faq-list reveal draw">
-          <details>
-            <summary>O café da manhã está incluído?</summary>
-            <p>Sim, em todas as cabins. Ele é entregue na porta, no horário combinado na véspera.</p>
+        <div class="faq-intro">
+          <p class="kicker" data-reveal>06 · Perguntas</p>
+          <h2 id="faq-title" class="title" data-reveal>Antes de vir, o que costumam <em>perguntar.</em></h2>
+        </div>
+        <div class="faq-list" data-reveal>
+          <details open>
+            <summary>Como chego até o Refúgio?</summary>
+            <p>De carro, a cerca de uma hora de Cuiabá e quinze minutos do centro da Chapada. Os últimos dois quilômetros são de terra firme, que qualquer carro passa. A localização exata segue na véspera.</p>
           </details>
           <details>
-            <summary>As cabins têm ar-condicionado e internet?</summary>
-            <p>Sim, as duas coisas. A internet existe, mas a proposta é que você não precise dela o tempo inteiro.</p>
+            <summary>Posso cancelar?</summary>
+            <p>Sim. Até sete dias antes da chegada, o sinal volta inteiro. Depois disso, ele vira crédito para outra data em até seis meses.</p>
           </details>
           <details>
             <summary>Crianças e animais são bem-vindos?</summary>
-            <p>As cabins são pensadas para dois adultos. Animais dependem da cabin e devem ser consultados antes.</p>
+            <p>As cabanas foram pensadas para dois adultos. Cães pequenos ficam na Ipê, com aviso na reserva.</p>
           </details>
           <details>
-            <summary>Os preparos estão sempre disponíveis?</summary>
-            <p>Nem sempre. A fogueira depende do clima e alguns itens pedem antecedência de 48 horas.</p>
+            <summary>Tem sinal de celular?</summary>
+            <p>Há Wi-Fi em todas as cabanas e sinal fraco de celular no terreno. Dá para avisar que chegou bem, e quase nada além disso.</p>
           </details>
           <details>
-            <summary>Como funciona a reserva?</summary>
-            <p>Você envia o resumo pelo WhatsApp, confirmamos disponibilidade e valores e a reserva é garantida com um sinal.</p>
+            <summary>A fogueira funciona sempre?</summary>
+            <p>Depende do tempo. Na época seca, entre julho e setembro, ela pode ser suspensa por segurança. Avisamos antes da chegada.</p>
           </details>
         </div>
       </div>
     </section>
 
-    <!-- Fechamento -->
-    <section class="closing" aria-labelledby="closing-title">
-      <figure class="wrap closing-figure reveal curtain parallax">
-        <div class="frame frame-wide"><img src="https://images.unsplash.com/photo-1604178449156-323f840ed736?auto=format&amp;fit=crop&amp;w=1280&amp;q=72" srcset="https://images.unsplash.com/photo-1604178449156-323f840ed736?auto=format&amp;fit=crop&amp;w=640&amp;q=72 640w, https://images.unsplash.com/photo-1604178449156-323f840ed736?auto=format&amp;fit=crop&amp;w=960&amp;q=72 960w, https://images.unsplash.com/photo-1604178449156-323f840ed736?auto=format&amp;fit=crop&amp;w=1280&amp;q=72 1280w, https://images.unsplash.com/photo-1604178449156-323f840ed736?auto=format&amp;fit=crop&amp;w=1800&amp;q=72 1800w" sizes="(max-width: 1320px) 100vw, 1320px" alt="Duas cabins A-frame na luz alaranjada do fim de tarde" loading="lazy" decoding="async"></div>
-      </figure>
-      <div class="wrap closing-inner reveal">
-        <p class="label">Talvez você não esteja procurando uma viagem.</p>
-        <h2 id="closing-title">Talvez esteja procurando alguns dias em que ninguém espere <em>nada</em> de você.</h2>
-        <div class="actions">
-          <a class="btn" href="#planejar">Planejar estadia</a>
-          <a class="text-link" data-wa="ajuda" href="https://wa.me/5565999999999" target="_blank" rel="noopener">Falar com a gente</a>
+    <section class="close" aria-labelledby="close-title">
+      <div class="wrap">
+        <div class="close-stage">
+          <figure class="close-figure" data-parallax>
+            <img src="https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=1280&amp;h=782&amp;q=72" srcset="https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=640&amp;h=391&amp;q=72 640w, https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=960&amp;h=587&amp;q=72 960w, https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=1280&amp;h=782&amp;q=72 1280w, https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=1800&amp;h=1100&amp;q=72 1800w" sizes="(min-width: 1320px) 1240px, 92vw" width="1800" height="1100" alt="Banheira escura sobre um deck de madeira, com os morros da Chapada ao amanhecer" decoding="async" loading="lazy">
+          </figure>
+          <div class="close-copy">
+            <h2 id="close-title" class="title" data-reveal>Uma das quatro cabanas pode ser a <em>sua.</em></h2>
+            <p class="close-line" data-reveal>Nada é cobrado para pedir. Cancelamento sem custo até sete dias antes da chegada.</p>
+            <div class="close-actions" data-reveal>
+              <a class="btn" href="#reservar"><span>Reservar minha estadia</span></a>
+              <a class="text-link" id="wa-direct" href="https://wa.me/5565999999999" target="_blank" rel="noopener">Prefere conversar? Chame no WhatsApp</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -406,20 +477,25 @@
   <footer class="site-footer">
     <div class="wrap footer-grid">
       <div class="footer-brand">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M16 5 27 26H5Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+          <path d="M2 26h28" stroke="currentColor" stroke-width="1.4"/>
+          <path class="brand-door" d="M16 18v8" stroke-width="1.6"/>
+        </svg>
         <span class="brand-name">Refúgio Nômade</span>
-        <span class="brand-sub">Cabins &amp; Forest</span>
       </div>
       <ul class="footer-info">
-        <li>Chapada dos Guimarães — MT</li>
-        <li>@refugionomade</li>
-        <li>Hospedagem mediante reserva</li>
+        <li>Chapada dos Guimarães, MT</li>
+        <li>Recepção pelo WhatsApp, das 8h às 20h</li>
+        <li>Entrada às 15h · saída às 12h</li>
       </ul>
-      <p class="footer-note"><strong>Projeto conceitual de portfólio.</strong> Hospedagem, valores, contato e disponibilidade são fictícios. Fotografias via Unsplash.</p>
+      <p class="footer-note">Projeto conceitual de portfólio. Hospedagem, valores, contato e disponibilidade são fictícios. Fotografias via Unsplash.</p>
     </div>
   </footer>
 
-  <a class="mobile-bar" href="#planejar"><span>Planejar estadia</span><span>a partir de R$ 890</span></a>
-
-  <script src="script.js" defer></script>
+  <div class="mobile-bar" id="mobile-bar">
+    <a class="btn btn-block" href="#reservar"><span>Reservar minha estadia</span></a>
+    <p class="mobile-bar-note">Diárias a partir de R$ 890, para dois</p>
+  </div>
 </body>
 </html>
