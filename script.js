@@ -258,6 +258,34 @@
 
   update();
 
+  /* ---------- As horas do dia: a seção no meio da tela define a fase ---------- */
+  const rootEl = document.documentElement;
+  const phaseTime = $('#phase-time');
+  const phaseName = $('#phase-name');
+  const themeMeta = $('meta[name="theme-color"]');
+  // Mesmas cores de fundo de styles.css (seção 2b), para a barra do navegador
+  const PHASE_SURFACE = {
+    amanhecer: '#F6EEE9', manha: '#F7F2EA', meiodia: '#F4ECDD', tarde: '#ECDFC9',
+    dourada: '#E3CDAE', crepusculo: '#2B2120', noite: '#15120F',
+  };
+
+  const setPhase = (section) => {
+    const phase = section.dataset.phase;
+    if (rootEl.dataset.phase !== phase) rootEl.dataset.phase = phase;
+    if (phaseTime.textContent !== section.dataset.time) {
+      phaseTime.textContent = section.dataset.time;
+      phaseName.textContent = section.dataset.name;
+      document.dispatchEvent(new CustomEvent('phase:change', { detail: { phase } }));
+    }
+    // A barra do navegador no celular acompanha o fundo
+    themeMeta.content = PHASE_SURFACE[phase] || themeMeta.content;
+  };
+
+  const phaseObserver = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) setPhase(e.target); });
+  }, { rootMargin: '-50% 0px -50% 0px' });
+  $$('main [data-phase]').forEach((s) => phaseObserver.observe(s));
+
   /* ---------- Barra móvel: some quando o hero, a reserva ou o fechamento aparecem ---------- */
   const bar = $('#mobile-bar');
   const hidden = new Set();

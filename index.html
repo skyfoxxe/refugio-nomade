@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-phase="amanhecer">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,7 +47,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&amp;family=Manrope:wght@400;500&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&amp;family=Manrope:wght@400;500&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
@@ -68,6 +68,7 @@
         </svg>
         <span class="brand-name">Refúgio Nômade</span>
       </a>
+      <p class="phase-clock" aria-hidden="true"><span class="phase-time" id="phase-time">05:48</span><span class="phase-name" id="phase-name">Amanhecer</span></p>
       <nav class="site-nav" id="site-nav" aria-label="Principal">
         <ul class="nav-list">
           <li><a href="#dia">Um dia</a></li>
@@ -86,7 +87,7 @@
   </header>
 
   <main id="conteudo">
-    <section class="hero" aria-labelledby="hero-title">
+    <section class="hero" aria-labelledby="hero-title" data-phase="amanhecer" data-time="05:48" data-name="Amanhecer">
       <div class="wrap hero-grid">
         <div class="hero-copy">
           <p class="label" data-intro>Chapada dos Guimarães · Mato Grosso</p>
@@ -130,11 +131,11 @@
       </div>
     </section>
 
-    <section class="scene pause" aria-labelledby="pause-title">
+    <section class="scene pause" aria-labelledby="pause-title" data-phase="manha" data-time="07:30" data-name="Manhã">
       <div class="wrap pause-grid">
         <div class="pause-main">
-          <p class="kicker" data-reveal>01 · A pausa</p>
-          <h2 id="pause-title" class="title" data-reveal>A semana pede muito. Aqui, o dia pede <em>pouco.</em></h2>
+          <p class="kicker" data-reveal>07:30 · A manhã</p>
+          <h2 id="pause-title" class="title" data-reveal>A semana pede muito. Aqui, a manhã pede <em>pouco.</em></h2>
           <p class="body-copy" data-reveal>Ninguém bate à porta antes da hora combinada. O café chega quando você pede, a trilha começa quando você calça a bota e a noite termina quando a lenha acaba.</p>
         </div>
         <span class="v-rule" aria-hidden="true" data-draw-v></span>
@@ -147,11 +148,11 @@
       </div>
     </section>
 
-    <section class="scene day" id="dia" aria-labelledby="day-title">
+    <section class="scene day" id="dia" aria-labelledby="day-title" data-phase="meiodia" data-time="12:10" data-name="Meio do dia">
       <div class="day-pin">
       <div class="wrap day-head">
         <div>
-          <p class="kicker" data-reveal>02 · Um dia</p>
+          <p class="kicker" data-reveal>12:10 · O dia inteiro</p>
           <h2 id="day-title" class="title" data-reveal>Da primeira luz à última <em>brasa.</em></h2>
         </div>
         <p class="day-clock" aria-hidden="true"><span class="day-clock-time" id="day-clock">06:40</span></p>
@@ -208,11 +209,11 @@
       </div>
     </section>
 
-    <section class="scene cabins" id="cabanas" aria-labelledby="cabins-title">
+    <section class="scene cabins" id="cabanas" aria-labelledby="cabins-title" data-phase="tarde" data-time="14:00" data-name="Tarde">
       <div class="wrap">
         <div class="section-head">
-          <p class="kicker" data-reveal>03 · As cabanas</p>
-          <h2 id="cabins-title" class="title" data-reveal>Quatro cabanas, cada uma com o seu <em>silêncio.</em></h2>
+          <p class="kicker" data-reveal>14:00 · As cabanas</p>
+          <h2 id="cabins-title" class="title" data-reveal>Depois do almoço, só falta escolher onde <em>descansar.</em></h2>
         </div>
         <div class="cabins-grid">
           <div class="cabin-stage" aria-hidden="true">
@@ -286,12 +287,11 @@
       </div>
     </section>
 
-    <section class="scene included" id="incluido" aria-labelledby="included-title">
+    <section class="scene included" id="incluido" aria-labelledby="included-title" data-phase="dourada" data-time="17:20" data-name="Hora dourada">
       <div class="wrap included-grid">
         <div class="included-head">
-          <p class="kicker" data-reveal>04 · Na diária</p>
-          <h2 id="included-title" class="title" data-reveal>O essencial já vem junto. O resto fica a seu <em>critério.</em></h2>
-          <p class="body-copy" data-reveal>A diária é fechada para dois e não tem taxa de serviço escondida. Os pedidos à parte são cobrados uma vez por estadia, não por noite.</p>
+          <p class="kicker" data-reveal>17:20 · Na diária</p>
+          <h2 id="included-title" class="title" data-reveal>A tarde cai, e o essencial já está à sua <em>espera.</em></h2>
         </div>
         <div class="ledgers">
           <div class="ledger">
@@ -318,15 +318,15 @@
       </div>
     </section>
 
-    <section class="scene plan" id="reservar" aria-labelledby="plan-title">
+    <section class="scene plan" id="reservar" aria-labelledby="plan-title" data-phase="crepusculo" data-time="18:40" data-name="Crepúsculo">
       <div class="wrap">
         <div class="plan-head">
           <div>
-            <p class="kicker" data-reveal>05 · Reserva</p>
-            <h2 id="plan-title" class="title" data-reveal>Monte a estadia. A confirmação chega pelo <em>WhatsApp.</em></h2>
+            <p class="kicker" data-reveal>18:40 · Reserva</p>
+            <h2 id="plan-title" class="title" data-reveal>O sol se pôs. Hora de escolher a sua <em>data.</em></h2>
           </div>
           <ol class="how" data-reveal aria-label="Como funciona a reserva">
-            <li><span class="how-n">1</span>Você envia o resumo daqui.</li>
+            <li><span class="how-n">1</span>Você envia o resumo pelo WhatsApp, daqui mesmo.</li>
             <li><span class="how-n">2</span>Confirmamos a data e mandamos o link do sinal de 30%.</li>
             <li><span class="how-n">3</span>Na véspera, chegam a localização e o horário do café.</li>
           </ol>
@@ -424,11 +424,11 @@
       </div>
     </section>
 
-    <section class="scene faq" id="perguntas" aria-labelledby="faq-title">
+    <section class="scene faq" id="perguntas" aria-labelledby="faq-title" data-phase="noite" data-time="21:30" data-name="Noite">
       <div class="wrap faq-grid">
         <div class="faq-intro">
-          <p class="kicker" data-reveal>06 · Perguntas</p>
-          <h2 id="faq-title" class="title" data-reveal>Antes de vir, o que costumam <em>perguntar.</em></h2>
+          <p class="kicker" data-reveal>21:30 · Perguntas</p>
+          <h2 id="faq-title" class="title" data-reveal>Antes de dormir, o que costumam <em>perguntar.</em></h2>
         </div>
         <div class="faq-list" data-reveal>
           <details open>
@@ -455,15 +455,16 @@
       </div>
     </section>
 
-    <section class="close" aria-labelledby="close-title">
+    <section class="close" aria-labelledby="close-title" data-phase="noite" data-time="22:05" data-name="Noite">
       <div class="wrap">
         <div class="close-stage">
           <figure class="close-figure" data-parallax>
             <img src="https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=1280&amp;h=782&amp;q=72" srcset="https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=640&amp;h=391&amp;q=72 640w, https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=960&amp;h=587&amp;q=72 960w, https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=1280&amp;h=782&amp;q=72 1280w, https://images.unsplash.com/photo-1725590137329-f182b5a8fac3?auto=format&amp;fit=crop&amp;w=1800&amp;h=1100&amp;q=72 1800w" sizes="(min-width: 1320px) 1240px, 92vw" width="1800" height="1100" alt="Banheira escura sobre um deck de madeira, com os morros da Chapada ao amanhecer" decoding="async" loading="lazy">
           </figure>
           <div class="close-copy">
+            <p class="kicker" data-reveal>22:05 · Boa noite</p>
             <h2 id="close-title" class="title" data-reveal>Uma das quatro cabanas pode ser a <em>sua.</em></h2>
-            <p class="close-line" data-reveal>Nada é cobrado para pedir. Cancelamento sem custo até sete dias antes da chegada.</p>
+            <p class="close-line" data-reveal>A lenha está acesa e o céu, cheio. Nada é cobrado para pedir. Cancelamento sem custo até sete dias antes da chegada.</p>
             <div class="close-actions" data-reveal>
               <a class="btn" href="#reservar"><span>Reservar minha estadia</span></a>
               <a class="text-link" id="wa-direct" href="https://wa.me/5565999999999" target="_blank" rel="noopener">Prefere conversar? Chame no WhatsApp</a>

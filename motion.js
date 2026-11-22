@@ -102,6 +102,13 @@
       };
       document.addEventListener('day:moment', onMoment);
 
+      /* ---- Relógio do cabeçalho: a hora troca com um respiro ---- */
+      const phaseClock = document.querySelector('.phase-clock');
+      const onPhase = () => {
+        gsap.fromTo(phaseClock, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.5, ease: EASE_OUT, overwrite: true });
+      };
+      document.addEventListener('phase:change', onPhase);
+
       /* ---- Estimativa: o total conta até o novo valor ---- */
       const onEstimate = (e) => {
         const { from, to, el } = e.detail;
@@ -185,6 +192,7 @@
       return () => {
         document.removeEventListener('day:moment', onMoment);
         document.removeEventListener('estimate:change', onEstimate);
+        document.removeEventListener('phase:change', onPhase);
         document.querySelector('#dia').classList.remove('is-pinned');
         if (lenis) {
           gsap.ticker.remove(tick);
