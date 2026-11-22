@@ -3,7 +3,10 @@
 Projeto conceitual de portfólio para uma hospedagem fictícia em Chapada dos Guimarães, MT. Nível **Estratégico**.
 
 ## Leitura de design
-Hospedagem de natureza para casais, quiet luxury com movimento cinematográfico contido. Marfim `#F7F2EA`, tinta quente `#17130F` e um único acento, vermelho-terra `#742D2C` (a pedra da Chapada). Cormorant Garamond nos títulos, com uma palavra em itálico; Manrope no texto. Filetes no lugar de cartões, um botão cheio por tela.
+Hospedagem de natureza para casais, quiet luxury com movimento cinematográfico contido. Marfim `#F7F2EA`, tinta quente `#17130F` e um único acento, vermelho-terra `#742D2C` (a pedra da Chapada). EB Garamond nos títulos, com uma palavra em itálico; Manrope no texto. Filetes no lugar de cartões, um botão cheio por tela.
+
+## O dia passando
+Conforme a rolagem, o fundo escurece seção a seção, como um dia: amanhecer (hero), manhã, meio do dia, tarde, hora dourada, crepúsculo (reserva) e noite (perguntas e fechamento). Os títulos e os rótulos de cada seção acompanham a hora, e um relógio no cabeçalho mostra em que hora a página está. As cores são tokens registrados com `@property` e trocam em 1,4 s; com movimento reduzido, a troca é imediata. Cada fase foi conferida: texto ≥ 11:1, texto secundário ≥ 4,7:1, acento ≥ 6:1.
 
 ## Skills usadas (pacote design-taste)
 design-taste, quiet-luxury, taste-landing-page, taste-ux-copy, taste-typography, taste-color, taste-design-system, taste-brand-identity, taste-motion, taste-gsap, cinematic-motion (só como tempero de movimento), taste-web-performance, taste-code-craft. Revisão: taste-design-review, taste-accessibility, taste-code-review e review-animations.

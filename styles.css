@@ -1,8 +1,8 @@
 /* ==========================================================================
    Refúgio Nômade · v8
    Design read: hospedagem de natureza para casais, quiet luxury,
-   marfim + tinta + um acento (terra vermelha da Chapada), serifa Cormorant
-   com Manrope, movimento cinematográfico contido (GSAP em motion.js).
+   marfim + tinta + um acento (terra vermelha da Chapada), serifa EB Garamond
+   com Manrope. O fundo escurece seção a seção, do amanhecer à noite, movimento cinematográfico contido (GSAP em motion.js).
    ========================================================================== */
 
 /* ---------- 1. Tokens primitivos ---------- */
@@ -29,7 +29,7 @@
   --radius-sm: 2px;
   --header-h: 72px;
 
-  --font-display: "Cormorant Garamond", Garamond, "Times New Roman", serif;
+  --font-display: "EB Garamond", Garamond, "Times New Roman", serif;
   --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* Escala de tipo (fluida, rem) */
@@ -58,7 +58,19 @@
   --section-gap: clamp(6rem, 4rem + 8vw, 10rem);
 }
 
-/* ---------- 2. Tokens semânticos ---------- */
+/* ---------- 2. Tokens semânticos ----------
+   As cores semânticas são registradas com @property para poderem transitar:
+   a página escurece como um dia (amanhecer → noite) conforme a seção em foco. */
+@property --color-surface { syntax: "<color>"; inherits: true; initial-value: #F7F2EA; }
+@property --color-surface-alt { syntax: "<color>"; inherits: true; initial-value: #EFE8DC; }
+@property --color-text { syntax: "<color>"; inherits: true; initial-value: #17130F; }
+@property --color-text-muted { syntax: "<color>"; inherits: true; initial-value: #6E655A; }
+@property --color-border { syntax: "<color>"; inherits: true; initial-value: rgb(23 19 15 / 0.18); }
+@property --color-border-strong { syntax: "<color>"; inherits: true; initial-value: #8C8173; }
+@property --color-accent { syntax: "<color>"; inherits: true; initial-value: #742D2C; }
+@property --color-accent-fill { syntax: "<color>"; inherits: true; initial-value: #742D2C; }
+@property --color-on-accent { syntax: "<color>"; inherits: true; initial-value: #F7F2EA; }
+
 :root {
   --color-surface: var(--ivory-50);
   --color-surface-alt: var(--ivory-100);
@@ -67,10 +79,109 @@
   --color-border: var(--rule-ink);
   --color-border-strong: var(--ink-500);
   --color-accent: var(--oxblood-600);
+  --color-accent-fill: var(--oxblood-600);
   --color-on-accent: var(--ivory-50);
-  --color-danger-text: var(--oxblood-600);
+  --color-danger-text: var(--color-accent);
   --color-on-image: var(--ivory-50);
   --color-image-veil: var(--veil-ink);
+}
+
+
+/* ---------- 2b. As horas do dia (data-phase no <html>, trocado por script.js) ----------
+   Cada fase passa contraste: texto ≥ 11:1, texto secundário ≥ 4,7:1, acento ≥ 6:1. */
+:root {
+  --dur-phase: 1400ms;
+  transition:
+    --color-surface var(--dur-phase) var(--ease-standard),
+    --color-surface-alt var(--dur-phase) var(--ease-standard),
+    --color-text var(--dur-phase) var(--ease-standard),
+    --color-text-muted var(--dur-phase) var(--ease-standard),
+    --color-border var(--dur-phase) var(--ease-standard),
+    --color-border-strong var(--dur-phase) var(--ease-standard),
+    --color-accent var(--dur-phase) var(--ease-standard),
+    --color-accent-fill var(--dur-phase) var(--ease-standard),
+    --color-on-accent var(--dur-phase) var(--ease-standard);
+}
+
+:root[data-phase="amanhecer"] {
+  --color-surface: #F6EEE9;
+  --color-surface-alt: #EDE3DC;
+  --color-text-muted: #6A6058;
+}
+
+:root[data-phase="meiodia"] {
+  --color-surface: #F4ECDD;
+  --color-surface-alt: #EAE0CD;
+  --color-text-muted: #675E52;
+}
+
+:root[data-phase="tarde"] {
+  --color-surface: #ECDFC9;
+  --color-surface-alt: #E2D3BA;
+  --color-text-muted: #5E5549;
+  --color-accent: #6E2A28;
+  --color-accent-fill: #6E2A28;
+}
+
+:root[data-phase="dourada"] {
+  --color-surface: #E3CDAE;
+  --color-surface-alt: #D8C09E;
+  --color-text-muted: #51483D;
+  --color-border: rgb(23 19 15 / 0.22);
+  --color-border-strong: #7A6C5C;
+  --color-accent: #62241F;
+  --color-accent-fill: #62241F;
+}
+
+:root[data-phase="crepusculo"],
+:root[data-phase="noite"] {
+  color-scheme: dark;
+  --color-text: #F4ECE2;
+  --color-border: rgb(244 236 226 / 0.2);
+  --color-on-accent: #15120F;
+}
+
+:root[data-phase="crepusculo"] {
+  --color-surface: #2B2120;
+  --color-surface-alt: #382B29;
+  --color-text-muted: #C4B5A6;
+  --color-border-strong: #9A8B7D;
+  --color-accent: #E2A07F;
+  --color-accent-fill: #E2A07F;
+}
+
+:root[data-phase="noite"] {
+  --color-surface: #15120F;
+  --color-surface-alt: #211C18;
+  --color-text-muted: #B3A797;
+  --color-border-strong: #8C8173;
+  --color-accent: #D99A78;
+  --color-accent-fill: #D99A78;
+}
+
+/* Relógio do cabeçalho: diz que hora do dia a página está mostrando */
+.phase-clock {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0 auto 0 var(--space-8);
+  color: var(--color-text-muted);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.phase-time {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 1099px) {
+  .phase-name { display: none; }
 }
 
 /* ---------- 3. Base ---------- */
@@ -190,7 +301,7 @@ a { color: inherit; }
   overflow: hidden;
   border: 0;
   border-radius: var(--radius-sm);
-  background: var(--color-accent);
+  background: var(--color-accent-fill);
   color: var(--color-on-accent);
   font: 500 var(--text-label) / 1 var(--font-body);
   letter-spacing: 0.2em;
@@ -238,6 +349,7 @@ a { color: inherit; }
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .btn:hover { color: var(--color-surface); }
   .btn:hover::before { transform: translateY(0); }
   .text-link:hover::after { transform: scaleX(0.3); }
   .nav-list a:hover { color: var(--color-accent); }
@@ -1103,6 +1215,7 @@ a { color: inherit; }
 }
 
 .close-copy .title { color: var(--color-on-image); max-width: 14ch; }
+.close-copy .kicker { color: var(--color-on-image); }
 .close-copy .title em { color: var(--color-on-image); }
 
 .close-line {
@@ -1295,6 +1408,7 @@ a { color: inherit; }
    do site usam esses tokens. O GSAP só roda em (prefers-reduced-motion: no-preference). */
 @media (prefers-reduced-motion: reduce) {
   :root {
+    --dur-phase: 0.01ms;
     --dur-fast: 0.01ms;
     --dur-base: 0.01ms;
     --dur-slow: 0.01ms;
@@ -1307,3 +1421,8 @@ a { color: inherit; }
 html.lenis,
 html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: hidden; }
+
+@media (max-width: 560px) {
+  .phase-clock { margin-left: var(--space-4); }
+  .phase-time { font-size: 1rem; }
+}
