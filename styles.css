@@ -803,10 +803,16 @@ a { color: inherit; }
 .included-head {
   grid-column: 1 / span 5;
   align-self: start;
-  position: sticky;
-  top: calc(var(--header-h) + var(--space-12));
 }
 .included-head .title { margin-bottom: var(--space-8); }
+
+/* O título só acompanha a rolagem quando está ao lado das listas (desktop) */
+@media (min-width: 900px) {
+  .included-head {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-12));
+  }
+}
 
 .ledgers {
   grid-column: 7 / span 6;
